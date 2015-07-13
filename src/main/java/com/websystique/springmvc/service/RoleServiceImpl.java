@@ -1,10 +1,12 @@
 package com.websystique.springmvc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.websystique.springmvc.dao.AbstractDao;
+import com.websystique.springmvc.dao.RoleDao;
 import com.websystique.springmvc.model.Role;
 
 @Service("roleService")
@@ -12,11 +14,12 @@ import com.websystique.springmvc.model.Role;
 public class RoleServiceImpl implements RoleService {
 
 	@Autowired
-	private AbstractDao dao;
+	@Qualifier("roleDao")
+	private RoleDao dao;
 
 	@Override
 	public void saveRole(Role role) {
-		dao.persist(role);
+		dao.saveRole(role);
 	}
 
 }

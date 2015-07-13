@@ -1,0 +1,21 @@
+URLs for use cases
+
+agent/create_reg - registration.jsp {registration}
+agent/edit_reg - registration.jsp {registration}
+agent/show_regs_list (agent's regs) registrationsList.jsp {registrations_list}
+agetn/reg_details
+agent/add_note
+
+manager/create_reg
+manager/edit_reg
+manager/show_regs_list (manager's agents regs)
+manager/reg_details
+manager/add_note
+manager/show_subs
+
+admin/approve_reg
+admin/show_regs_list (all)
+admin/add_user
+admin/edit_user (..., set role)
+admin/create_unit
+admin/edit_unit (add/remove users, set manager)

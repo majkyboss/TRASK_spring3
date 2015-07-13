@@ -1,5 +1,16 @@
 package com.websystique.springmvc.dao;
 
-public class RoleDaoImpl extends AbstractDao {
+import org.springframework.stereotype.Repository;
+
+import com.websystique.springmvc.model.Role;
+
+@Repository("roleDao")
+public class RoleDaoImpl extends AbstractDao implements RoleDao {
+
+	@Override
+	public void saveRole(Role role) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

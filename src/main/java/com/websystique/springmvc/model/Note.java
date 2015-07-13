@@ -43,4 +43,36 @@ public class Note implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "registration_ico", nullable = false),
 			@JoinColumn(name = "registration_reg_date", nullable = false) })
 	private Registration registration;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Registration getRegistration() {
+		return registration;
+	}
+
+	public void setRegistration(Registration registration) {
+		this.registration = registration;
+	}
 }

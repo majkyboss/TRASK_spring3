@@ -12,4 +12,7 @@ public interface EmployeeService {
 
 	void deleteEmployeeBySsn(String ssn);
 
+	Employee findEmployeeBySsn(String ssn);
+	
+	boolean isEmployeeSsnUnique(Integer id, String ssn);
 }
