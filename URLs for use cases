@@ -3,19 +3,20 @@ URLs for use cases
 agent/create_reg - registration.jsp {registration}
 agent/edit_reg - registration.jsp {registration}
 agent/show_regs_list (agent's regs) registrationsList.jsp {registrations_list}
-agetn/reg_details
-agent/add_note
+agetn/reg_details registrationDetail.jsp {registration}
+agent/create_note
 
 manager/create_reg
 manager/edit_reg
 manager/show_regs_list (manager's agents regs)
 manager/reg_details
-manager/add_note
-manager/show_subs
+manager/create_note
+manager/show_subs usersList.jsp {users}
 
-admin/approve_reg
+admin/approve_reg - edit_reg {..., statuses}
 admin/show_regs_list (all)
-admin/add_user
+admin/show_users_list usersList.jsp {users}
+admin/add_user editUser.jsp {user}
 admin/edit_user (..., set role)
 admin/create_unit
 admin/edit_unit (add/remove users, set manager)

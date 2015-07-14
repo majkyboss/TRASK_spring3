@@ -47,4 +47,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 		return null;
 	}
 
+	@Override
+	public List<Registration> findAllByManagerId(int managerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

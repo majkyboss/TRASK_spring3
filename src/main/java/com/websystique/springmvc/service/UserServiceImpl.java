@@ -1,5 +1,7 @@
 package com.websystique.springmvc.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,30 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void saveUser(User user) {
 		dao.saveUser(user);
+	}
+
+	@Override
+	public List<User> findAllUsersByUnitManagerId(int managerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> findAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User findUserById(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUser(int userId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

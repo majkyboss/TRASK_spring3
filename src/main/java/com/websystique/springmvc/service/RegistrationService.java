@@ -17,4 +17,6 @@ public interface RegistrationService {
 	boolean isRegistrationUnique(String ico, LocalDate reg_date);
 
 	Registration findByKey(String ico, LocalDate regDate);
+
+	List<Registration> findAllByManagerId(int managerId);
 }

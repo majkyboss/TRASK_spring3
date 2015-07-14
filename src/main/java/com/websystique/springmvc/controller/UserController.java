@@ -25,6 +25,15 @@ import com.websystique.springmvc.service.RegistrationService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
+
+	private static final String JSP_PAGE_REGISTRATION_DETAIL_FORM = "registration";
+	private static final String JSP_PAGE_REGISTRATION_DETAIL = "registrationDetail";
+	protected static final String JSP_PAGE_ACTION_SUCCESS = "success";
+	protected static final String JSP_PAGE_ACTION_FAILED = "failed";
+	private static final String JSP_PAGE_REGISTRATIONS_LIST = "registrationsList";
+	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "note";
+	private static final String JSP_PAGE_NOTE_DETAIL = "noteDetail";
 
 	// create_reg
 	// edit_reg
@@ -41,20 +50,11 @@ public class UserController {
 	@Autowired
 	MessageSource messageSource;
 
-	private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
-
-	private static final String JSP_PAGE_REGISTRATION_DETAIL_FORM = "registration";
-	private static final String JSP_PAGE_REGISTRATION_DETAIL = "registrationDetail";
-	private static final String JSP_PAGE_ACTION_SUCCESS = "success";
-	private static final String JSP_PAGE_ACTION_FAILED = "failed";
-	private static final String JSP_PAGE_REGISTRATIONS_LIST = "registrationsList";
-	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "note";
-	private static final String JSP_PAGE_NOTE_DETAIL = "noteDetail";
-
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
 	public String createRegistration(ModelMap model) {
 		Registration newReg = new Registration();
 		model.addAttribute("registration", newReg);
+
 		return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 	}
 
@@ -89,7 +89,7 @@ public class UserController {
 		return JSP_PAGE_ACTION_SUCCESS;
 	}
 
-	@RequestMapping(value = { "/edit_reg_{ico}_{regDate}" })
+	@RequestMapping(value = { "/edit_reg_{regDateString}_{ico}" })
 	public String editRegistration(ModelMap model, @PathVariable String ico,
 			@PathVariable String regDateString) {
 
@@ -108,7 +108,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = { "/reg_detail_{ico}_{regDate}" })
+	@RequestMapping(value = { "/reg_detail_{regDateString}_{ico}" })
 	public String showRegistrationDetail(ModelMap model,
 			@PathVariable String ico, @PathVariable String regDateString) {
 
@@ -117,7 +117,7 @@ public class UserController {
 		return JSP_PAGE_REGISTRATION_DETAIL;
 	}
 
-	@RequestMapping(value = { "show_regs_list" })
+	@RequestMapping(value = { "/show_regs_list" })
 	public String showRegistrations(ModelMap model) {
 		List<Registration> regs = getRegistrations();
 
@@ -135,14 +135,14 @@ public class UserController {
 		return regsService.findAllRegistrations();
 	}
 
-	@RequestMapping(value = { "/del_reg_{ico}_{regDate}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/del_reg_{regDateString}_{ico}" }, method = RequestMethod.GET)
 	public void deleteRegistration(ModelMap model, @PathVariable String ico,
 			@PathVariable String regDateString/* , BindingResult result */) {
 
 		LocalDate regDate = LocalDate.parse(regDateString,
 				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
 
-		Registration reg = regsService.findByKey(ico, regDate);
+		// Registration reg = regsService.findByKey(ico, regDate);
 		// if (reg == null) {
 		// FieldError error = new FieldError("registration", "key",
 		// messageSource.getMessage("not.found.registration",
@@ -161,8 +161,8 @@ public class UserController {
 		// + " was deleted.");
 		//
 		// return JSP_PAGE_ACTION_SUCCESS;
+
 		// TODO find the way what to do after delete
-		System.out.println("ahoj");
 	}
 
 	@RequestMapping(value = { "/create_note" }, method = RequestMethod.POST)
@@ -177,6 +177,7 @@ public class UserController {
 	public String editNote(ModelMap model, @PathVariable int noteId) {
 		Note note = noteService.findById(noteId);
 		model.addAttribute("note", note);
+
 		return JSP_PAGE_NOTE_DETAIL_FORM;
 	}
 
@@ -193,6 +194,7 @@ public class UserController {
 		noteService.deleteNote(note);
 
 		model.addAttribute("registration", reg);
+
 		return JSP_PAGE_REGISTRATION_DETAIL;
 	}
 }
