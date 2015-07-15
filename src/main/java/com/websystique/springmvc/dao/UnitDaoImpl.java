@@ -9,8 +9,7 @@ public class UnitDaoImpl extends AbstractDao implements UnitDao {
 
 	@Override
 	public void saveUnit(Unit unit) {
-		// TODO Auto-generated method stub
-
+		persist(unit);
 	}
 
 }

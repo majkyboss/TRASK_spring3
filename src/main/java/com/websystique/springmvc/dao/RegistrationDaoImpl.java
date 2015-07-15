@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -25,9 +28,26 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	}
 
 	@Override
-	public void deleteRegistration(String ico, Date registrationDate) {
-		// TODO Auto-generated method stub
-		
+	public void deleteRegistration(String ico, LocalDate registrationDate) {
+		Query query = getSession().createSQLQuery("delete from Registration where ico = :ico and reg_date = :registrationDate");
+		query.setString("ico", ico);
+		query.setParameter("registrationDate", registrationDate);
+		query.executeUpdate();
+	}
+
+	@Override
+	public Registration findByKey(String ico, LocalDate regDate) {
+		Criteria criteria = getSession().createCriteria(Registration.class);
+		criteria.add(Restrictions.and(Restrictions.eq("ico", ico), Restrictions.eq("reg_date", regDate)));
+		return (Registration) criteria.uniqueResult();
+	}
+
+	@Override
+	public List<Registration> findAllByManagerId(int managerId) {
+		Criteria criteria = getSession().createCriteria(Registration.class);
+		// http://stackoverflow.com/questions/2347359/hibernate-createcriteria-or-createalias
+		// TODO join via unit and branch
+		return null;
 	}
 
 }

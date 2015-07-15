@@ -1,7 +1,11 @@
 package com.websystique.springmvc.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
+import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Role;
 
 @Repository("roleDao")
@@ -9,8 +13,13 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
 
 	@Override
 	public void saveRole(Role role) {
-		// TODO Auto-generated method stub
-		
+		persist(role);
+	}
+
+	@Override
+	public List<Role> findAllRoles() {
+		Criteria criteria = getSession().createCriteria(Role.class);
+		return criteria.list();
 	}
 
 }

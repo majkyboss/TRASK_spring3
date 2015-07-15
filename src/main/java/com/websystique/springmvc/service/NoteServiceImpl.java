@@ -18,20 +18,18 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Note foundNote = dao.findById(id);
+		return foundNote;
 	}
 
 	@Override
 	public void saveNote(Note note) {
-		// TODO Auto-generated method stub
-		
+		dao.saveNote(note);
 	}
 
 	@Override
 	public void deleteNote(Note note) {
-		// TODO Auto-generated method stub
-		
+		dao.deleteNote(note);
 	}
 
 }

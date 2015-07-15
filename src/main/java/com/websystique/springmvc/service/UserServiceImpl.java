@@ -26,26 +26,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAllUsersByUnitManagerId(int managerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAllByUnitManager(managerId);
 	}
 
 	@Override
 	public List<User> findAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAllUsers();
 	}
 
 	@Override
-	public User findUserById(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public User findById(int userId) {
+		return dao.findById(userId);
 	}
 
 	@Override
-	public void deleteUser(int userId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteUser(User user) {
+		dao.deleteUser(user);
 	}
 
 }

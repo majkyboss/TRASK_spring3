@@ -9,8 +9,7 @@ public class BranchDaoImpl extends AbstractDao implements BranchDao {
 
 	@Override
 	public void saveBranch(Branch branch) {
-		// TODO Auto-generated method stub
-
+		persist(branch);
 	}
 
 }

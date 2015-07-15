@@ -152,7 +152,7 @@ public class UserController {
 		// return JSP_PAGE_ACTION_FAILED;
 		// }
 
-		regsService.deleteRegistration(ico, regDate.toDate());
+		regsService.deleteRegistration(ico, regDate);
 		// model.addAttribute(
 		// "success",
 		// "Registration of company (ico: " + reg.getIco()

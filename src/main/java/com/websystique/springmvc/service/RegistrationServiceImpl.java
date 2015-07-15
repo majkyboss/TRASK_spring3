@@ -18,39 +18,37 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Autowired
 	@Qualifier("registrationDao")
-	private RegistrationDao regDao;
-	
+	private RegistrationDao dao;
+
 	@Override
 	public void saveRegistration(Registration registration) {
-		regDao.saveRegistration(registration);
+		dao.saveRegistration(registration);
 	}
 
 	@Override
 	public List<Registration> findAllRegistrations() {
-		return regDao.findAllRegistrations();
+		return dao.findAllRegistrations();
 	}
 
 	@Override
-	public void deleteRegistration(String ico, Date registrationDate) {
-		regDao.deleteRegistration(ico, registrationDate);
+	public void deleteRegistration(String ico, LocalDate registrationDate) {
+		dao.deleteRegistration(ico, registrationDate);
 	}
 
 	@Override
-	public boolean isRegistrationUnique(String ico, LocalDate reg_date) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isRegistrationUnique(String ico, LocalDate regDate) {
+		Registration reg = findByKey(ico, regDate);
+		return (reg == null);
 	}
 
 	@Override
 	public Registration findByKey(String ico, LocalDate regDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findByKey(ico, regDate);
 	}
 
 	@Override
 	public List<Registration> findAllByManagerId(int managerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findAllByManagerId(managerId);
 	}
 
 }

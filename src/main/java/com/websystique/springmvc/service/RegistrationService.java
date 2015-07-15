@@ -12,7 +12,7 @@ public interface RegistrationService {
 	
 	List<Registration> findAllRegistrations();
 	
-	void deleteRegistration(String ico, Date registrationDate);
+	void deleteRegistration(String ico, LocalDate registrationDate);
 
 	boolean isRegistrationUnique(String ico, LocalDate reg_date);
 

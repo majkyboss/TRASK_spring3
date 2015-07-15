@@ -3,6 +3,8 @@ package com.websystique.springmvc.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDate;
+
 import com.websystique.springmvc.model.Registration;
 
 public interface RegistrationDao {
@@ -11,6 +13,10 @@ public interface RegistrationDao {
 
 	List<Registration> findAllRegistrations();
 
-	void deleteRegistration(String ico, Date registrationDate);
+	void deleteRegistration(String ico, LocalDate registrationDate);
+
+	Registration findByKey(String ico, LocalDate regDate);
+
+	List<Registration> findAllByManagerId(int managerId);
 
 }
