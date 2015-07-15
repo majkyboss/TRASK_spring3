@@ -1,13 +1,11 @@
 package com.websystique.springmvc.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.Registration;
@@ -29,7 +27,9 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 
 	@Override
 	public void deleteRegistration(String ico, LocalDate registrationDate) {
-		Query query = getSession().createSQLQuery("delete from Registration where ico = :ico and reg_date = :registrationDate");
+		Query query = getSession()
+				.createSQLQuery(
+						"delete from Registration where ico = :ico and regDate = :registrationDate");
 		query.setString("ico", ico);
 		query.setParameter("registrationDate", registrationDate);
 		query.executeUpdate();
@@ -38,7 +38,8 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	@Override
 	public Registration findByKey(String ico, LocalDate regDate) {
 		Criteria criteria = getSession().createCriteria(Registration.class);
-		criteria.add(Restrictions.and(Restrictions.eq("ico", ico), Restrictions.eq("reg_date", regDate)));
+		criteria.add(Restrictions.and(Restrictions.eq("ico", ico),
+				Restrictions.eq("regDate", regDate)));
 		return (Registration) criteria.uniqueResult();
 	}
 

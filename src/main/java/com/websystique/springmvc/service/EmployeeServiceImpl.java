@@ -29,13 +29,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void deleteEmployeeBySsn(String ssn) {
 		dao.deleteEmployeeBySsn(ssn);
 	}
-	
+
 	public Employee findEmployeeBySsn(String ssn) {
-        return dao.findEmployeeBySsn(ssn);
-    }
-	
+		return dao.findEmployeeBySsn(ssn);
+	}
+
 	public boolean isEmployeeSsnUnique(Integer id, String ssn) {
-        Employee employee = findEmployeeBySsn(ssn);
-        return ( employee == null || ((id != null) && (employee.getId() == id)));
-    }
+		Employee employee = findEmployeeBySsn(ssn);
+		return (employee == null || ((id != null) && (employee.getId() == id)));
+	}
 }

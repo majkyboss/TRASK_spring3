@@ -11,7 +11,7 @@ import com.websystique.springmvc.model.Note;
 @Service("noteService")
 @Transactional
 public class NoteServiceImpl implements NoteService {
-	
+
 	@Autowired
 	@Qualifier("noteDao")
 	private NoteDao dao;

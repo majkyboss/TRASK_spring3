@@ -64,17 +64,17 @@ public class UserController {
 		if (result.hasErrors())
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
-		registration.setReg_date(LocalDate.now());
+		registration.setRegDate(LocalDate.now());
 
 		// TODO test if the registration is unique - check the ico and date
 		if (!regsService.isRegistrationUnique(registration.getIco(),
-				registration.getReg_date())) {
+				registration.getRegDate())) {
 			FieldError error = new FieldError("registration", "key",
 					messageSource.getMessage(
 							"non.unique.registration",
 							new String[] {
 									registration.getIco(),
-									registration.getReg_date().toString(
+									registration.getRegDate().toString(
 											DATE_FORMAT_PATTERN) },
 							Locale.getDefault()));
 			result.addError(error);
@@ -84,7 +84,7 @@ public class UserController {
 		regsService.saveRegistration(registration);
 		model.addAttribute("success", "Registration of company (ico: "
 				+ registration.getIco() + ") was created with date "
-				+ registration.getReg_date().toString("dd.MM.yyyy"));
+				+ registration.getRegDate().toString("dd.MM.yyyy"));
 
 		return JSP_PAGE_ACTION_SUCCESS;
 	}

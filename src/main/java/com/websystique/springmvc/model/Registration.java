@@ -33,13 +33,14 @@ public class Registration implements Serializable {
 	@Id
 	@DateTimeFormat(pattern = "dd.MM.yyyy")
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	private LocalDate reg_date;
+	@Column(name = "reg_date")
+	private LocalDate regDate;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Unit.class)
 	@JoinColumns({
-		@JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName="user_id"),
-		@JoinColumn(name = "unit_branch_id", nullable = false, referencedColumnName="branch_id") })
+			@JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName = "user_id"),
+			@JoinColumn(name = "unit_branch_id", nullable = false, referencedColumnName = "branch_id") })
 	private Unit unit;
 
 	@NotNull
@@ -63,12 +64,12 @@ public class Registration implements Serializable {
 		this.companyName = companyName;
 	}
 
-	public LocalDate getReg_date() {
-		return reg_date;
+	public LocalDate getRegDate() {
+		return regDate;
 	}
 
-	public void setReg_date(LocalDate reg_date) {
-		this.reg_date = reg_date;
+	public void setRegDate(LocalDate regDate) {
+		this.regDate = regDate;
 	}
 
 	public Unit getUnit() {

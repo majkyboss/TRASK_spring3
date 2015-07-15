@@ -1,6 +1,5 @@
 package com.websystique.springmvc.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;

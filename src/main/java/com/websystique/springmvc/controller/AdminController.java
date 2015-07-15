@@ -78,7 +78,7 @@ public class AdminController extends UserController {
 	@RequestMapping("/edit_user_{userId}")
 	public String editUser(ModelMap model, @PathVariable int userId) {
 		User user = userService.findById(userId);
-		if (user != null){
+		if (user != null) {
 			model.addAttribute("user", user);
 			List<Role> roles = roleService.findAllRoles();
 			model.addAttribute("roles", roles);
@@ -86,13 +86,13 @@ public class AdminController extends UserController {
 
 		return JSP_PAGE_USER_DETAIL_FORM;
 	}
-	
+
 	@RequestMapping("/del_user_{userId}")
-	public String deleteUser(ModelMap model, @PathVariable int userId){
+	public String deleteUser(ModelMap model, @PathVariable int userId) {
 		User user = userService.findById(userId);
-		
+
 		userService.deleteUser(user);
-		
+
 		model.addAttribute("success", "User (" + user.getBirthNumber()
 				+ ") was deleted");
 		return showUsers(model);
@@ -105,26 +105,26 @@ public class AdminController extends UserController {
 
 		return JSP_PAGE_USERS_LIST;
 	}
-	
+
 	// TODO branches work
-	
+
 	@RequestMapping("/create_branch")
-	public String createBranch(ModelMap model){
+	public String createBranch(ModelMap model) {
 		Branch newBranch = new Branch();
 		model.addAttribute("branch", newBranch);
 		return JSP_PAGE_BRANCH_DETAIL_FORM;
 	}
-	
+
 	@RequestMapping("/save_branch")
-	public String saveBranch(ModelMap model){
-		
+	public String saveBranch(ModelMap model) {
+
 		return "";
 	}
-	
+
 	// find the way how to add user to unit (branch), manager
-	
-	public String showBranches(){
-		
+
+	public String showBranches() {
+
 		return "";
 	}
 }

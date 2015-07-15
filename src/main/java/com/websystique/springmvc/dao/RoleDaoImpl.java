@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
-import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Role;
 
 @Repository("roleDao")
