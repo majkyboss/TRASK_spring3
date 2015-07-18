@@ -18,5 +18,5 @@ admin/show_regs_list (all)
 admin/show_users_list usersList.jsp {users}
 admin/add_user editUser.jsp {user}
 admin/edit_user (..., set role)
-admin/create_unit
-admin/edit_unit (add/remove users, set manager)
+admin/create_branch editBranch.sjp {branch}
+admin/edit_branch (add/remove users, set manager)

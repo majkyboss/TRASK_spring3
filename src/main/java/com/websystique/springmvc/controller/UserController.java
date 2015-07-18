@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.websystique.springmvc.model.Branch;
 import com.websystique.springmvc.model.Note;
+import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Registration;
+import com.websystique.springmvc.model.Unit;
+import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.NoteService;
 import com.websystique.springmvc.service.RegistrationService;
 
@@ -121,6 +125,25 @@ public class UserController {
 	public String showRegistrations(ModelMap model) {
 		List<Registration> regs = getRegistrations();
 
+		// TODO delete - testing entity
+		Registration r = new Registration();
+		r.setIco("11111");
+		r.setCompanyName("firstCOmpany");
+		r.setRegDate(LocalDate.now());
+		RegStatus rs = new RegStatus();
+		rs.setId(0);
+		rs.setName("waiting");
+		r.setRegStatus(rs);
+		Branch br = new Branch();
+		br.setName("Zilina");
+		User user = new User();
+		user.setName("User1");
+		Unit u = new Unit();
+		u.setBranch(br);
+		u.setUser(user);
+		r.setUnit(u);
+		regs.add(r);
+		
 		model.addAttribute("registrations_list", regs);
 
 		return JSP_PAGE_REGISTRATIONS_LIST;

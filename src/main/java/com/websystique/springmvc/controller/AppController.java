@@ -155,4 +155,12 @@ public class AppController {
 		unit2.setBranch(branch);
 		unitService.saveUnit(unit2);
 	}
+	
+	@RequestMapping("/freemarker")
+	public String freemarkerTest(ModelMap model){
+		model.addAttribute("stringAttr", "ahoj");
+		System.out.println("controller reached");
+		
+		return "freemarkerTest";
+	}
 }
