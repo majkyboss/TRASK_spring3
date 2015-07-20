@@ -10,6 +10,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:out value="${regForEdit.companyName}"></c:out>
+	<c:out value="${registration.companyName}"></c:out>
 </body>
 </html>

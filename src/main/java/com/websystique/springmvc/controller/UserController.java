@@ -57,6 +57,7 @@ public class UserController {
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
 	public String createRegistration(ModelMap model) {
 		Registration newReg = new Registration();
+		newReg.setIco("1111");
 		model.addAttribute("registration", newReg);
 
 		return JSP_PAGE_REGISTRATION_DETAIL_FORM;
@@ -65,11 +66,16 @@ public class UserController {
 	@RequestMapping(value = { "/create_reg", "/save_reg" }, method = RequestMethod.POST)
 	public String saveRegistration(@Valid Registration registration,
 			BindingResult result, ModelMap model) {
+		System.out.println("before errors");
 		if (result.hasErrors())
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
+		System.out.println("no errors");
+		
 		registration.setRegDate(LocalDate.now());
 
+		System.out.println("date updated");
+		
 		// TODO test if the registration is unique - check the ico and date
 		if (!regsService.isRegistrationUnique(registration.getIco(),
 				registration.getRegDate())) {
@@ -84,6 +90,8 @@ public class UserController {
 			result.addError(error);
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 		}
+		
+		System.out.println("reg unique");
 
 		regsService.saveRegistration(registration);
 		model.addAttribute("success", "Registration of company (ico: "

@@ -163,4 +163,9 @@ public class AppController {
 		
 		return "freemarkerTest";
 	}
+	
+	@RequestMapping("/basic")
+	public String basicTemplate(){
+		return "basicTemplate";
+	}
 }
