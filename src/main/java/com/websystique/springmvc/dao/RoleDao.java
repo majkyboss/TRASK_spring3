@@ -10,4 +10,6 @@ public interface RoleDao {
 
 	List<Role> findAllRoles();
 
+	Role findRoleById(int roleId);
+
 }

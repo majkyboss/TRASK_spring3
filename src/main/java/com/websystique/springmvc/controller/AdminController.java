@@ -1,6 +1,11 @@
 package com.websystique.springmvc.controller;
 
+import java.beans.PropertyEditorSupport;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.validation.Valid;
 
@@ -8,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +27,7 @@ import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.RegStatusService;
 import com.websystique.springmvc.service.RoleService;
 import com.websystique.springmvc.service.UserService;
+import com.websystique.springmvc.utils.HbUtils;
 
 @Controller
 @RequestMapping("/admin")
@@ -34,36 +43,81 @@ public class AdminController extends UserController {
 	@Autowired
 	RoleService roleService;
 
-	// approve_reg
-	// add_user
-	// edit_user (..., set role)
-	// create_unit
-	// edit_unit (add/remove users, set manager)
-
-	// TODO check if the url is working
 	@Override
-	public String editRegistration(ModelMap model, String ico,
-			String regDateString) {
+	public String editRegistration(ModelMap model, @PathVariable String ico,
+			@PathVariable String regDateString) {
 		// load all statuses
 		List<RegStatus> statuses = statusService.findAllStatuses();
+		// TODO delete
+		RegStatus s = new RegStatus();
+		s.setId(0);
+		s.setName("waiting");
+		statuses.add(s);
+		s = new RegStatus();
+		s.setId(0);
+		s.setName("approved");
+		statuses.add(s);
+		s = new RegStatus();
+		s.setId(0);
+		s.setName("end");
+		statuses.add(s);
+
 		model.addAttribute("statuses", statuses);
+
+		// load all users
+		List<User> users = userService.findAllUsers();
+
+		// TODO delete
+		User u = new User();
+		u.setName("user1");
+		users.add(u);
+		u = new User();
+		u.setName("user2");
+		users.add(u);
+
+		model.addAttribute("users", users);
 
 		return super.editRegistration(model, ico, regDateString);
 	}
 
-	// show users, add users, edit users, remove users
-
 	@RequestMapping("/create_user")
-	public String createUser(ModelMap model) {
-		User newUser = new User();
-		model.addAttribute("user", newUser);
-		List<Role> roles = roleService.findAllRoles();
+	public String createUser(@ModelAttribute("user") User user, ModelMap model) {
+		//User user = new User();
+		Role r = new Role();
+		r.setId(5);
+		r.setName("testROle");
+		user.setRole(r);
+		model.addAttribute("user", user);
+//		List<Role> roles = roleService.findAllRoles();
+		Map<String, Role> roles = new TreeMap<String, Role>(/*new Comparator<Role>() {
+			@Override
+			public int compare(Role o1, Role o2) {
+				return Integer.compare(o1.getId(), o2.getId());
+			}
+		}*/);
+		for (Role role : roleService.findAllRoles()) {
+			roles.put(role.getId()+"", role);
+		}
+		
 		model.addAttribute("roles", roles);
 		return JSP_PAGE_USER_DETAIL_FORM;
 	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder){
+		binder.registerCustomEditor(Role.class, "role", new PropertyEditorSupport(){
+			@Override
+			public void setAsText(String text) throws IllegalArgumentException {
+				//super.setAsText(text);
+				int roleId = Integer.parseInt(text);
+				Role role = roleService.findRoleById(roleId);
+				setValue(role);
+			}
+		});
+	}
 
 	@RequestMapping(value = { "/save_user" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result,
+	public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult result,
 			ModelMap model) {
 		if (result.hasErrors())
 			return JSP_PAGE_USER_DETAIL_FORM;
@@ -72,7 +126,8 @@ public class AdminController extends UserController {
 
 		model.addAttribute("success", "User (" + user.getBirthNumber()
 				+ ") was created");
-		return showUsers(model);
+		loadUsersToPage(model);
+		return "redirect:show_users_list";
 	}
 
 	@RequestMapping("/edit_user_{userId}")
@@ -80,7 +135,11 @@ public class AdminController extends UserController {
 		User user = userService.findById(userId);
 		if (user != null) {
 			model.addAttribute("user", user);
-			List<Role> roles = roleService.findAllRoles();
+//			List<Role> roles = roleService.findAllRoles();
+			TreeMap<Integer, Role> roles = new TreeMap<Integer, Role>();
+			for (Role role : roleService.findAllRoles()) {
+				roles.put(role.getId(), role);
+			}
 			model.addAttribute("roles", roles);
 		}
 
@@ -95,15 +154,20 @@ public class AdminController extends UserController {
 
 		model.addAttribute("success", "User (" + user.getBirthNumber()
 				+ ") was deleted");
-		return showUsers(model);
+		loadUsersToPage(model);
+		return "redirect:"+JSP_PAGE_USERS_LIST;
 	}
 
 	@RequestMapping("/show_users_list")
 	public String showUsers(ModelMap model) {
-		List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);
+		loadUsersToPage(model);
 
 		return JSP_PAGE_USERS_LIST;
+	}
+
+	private void loadUsersToPage(ModelMap model) {
+		List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);
 	}
 
 	// TODO branches work

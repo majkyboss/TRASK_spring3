@@ -30,7 +30,7 @@
 </head>
 <body>
 	<div class="top_menu">
-		{user.name} | Registrations | Users | Branches <span id="login_button">{Login btn}
+		{user.name} | <a href="show_regs_list">Registrations</a> | <a href="show_users_list">Users</a> | Branches <span id="login_button">{Login btn}
 			| {Logout btn}</span>
 	</div>
 	<div class="main_content">

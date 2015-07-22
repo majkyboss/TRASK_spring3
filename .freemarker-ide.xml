@@ -1,0 +1,9 @@
+<config>
+	<context-values>
+		<resource path="src/main/webapp/WEB-INF/views/registration.ftl">
+			<value key="registration" object-class="com.websystique.springmvc.model.Registration"/>
+		</resource>
+	</context-values>
+	<macro-library>
+	</macro-library>
+</config>

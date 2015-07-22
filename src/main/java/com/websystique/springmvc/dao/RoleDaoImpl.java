@@ -21,4 +21,10 @@ public class RoleDaoImpl extends AbstractDao implements RoleDao {
 		return criteria.list();
 	}
 
+	@Override
+	public Role findRoleById(int roleId) {
+		// return (User) getSession().get(User.class, userId);
+		return (Role) getSession().get(Role.class, roleId);
+	}
+
 }

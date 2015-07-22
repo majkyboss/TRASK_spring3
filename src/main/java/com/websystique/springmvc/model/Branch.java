@@ -25,7 +25,7 @@ public class Branch {
 	private String name;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "manager_id", nullable = false)
 	private User manager;
 

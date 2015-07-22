@@ -25,6 +25,7 @@ import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.NoteService;
 import com.websystique.springmvc.service.RegistrationService;
+import com.websystique.springmvc.service.UserService;
 
 @Controller
 @RequestMapping("/user")
@@ -54,6 +55,9 @@ public class UserController {
 	@Autowired
 	MessageSource messageSource;
 
+	@Autowired
+	UserService userService;
+
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
 	public String createRegistration(ModelMap model) {
 		Registration newReg = new Registration();
@@ -66,16 +70,11 @@ public class UserController {
 	@RequestMapping(value = { "/create_reg", "/save_reg" }, method = RequestMethod.POST)
 	public String saveRegistration(@Valid Registration registration,
 			BindingResult result, ModelMap model) {
-		System.out.println("before errors");
 		if (result.hasErrors())
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
-		System.out.println("no errors");
-		
 		registration.setRegDate(LocalDate.now());
 
-		System.out.println("date updated");
-		
 		// TODO test if the registration is unique - check the ico and date
 		if (!regsService.isRegistrationUnique(registration.getIco(),
 				registration.getRegDate())) {
@@ -90,8 +89,6 @@ public class UserController {
 			result.addError(error);
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 		}
-		
-		System.out.println("reg unique");
 
 		regsService.saveRegistration(registration);
 		model.addAttribute("success", "Registration of company (ico: "
@@ -115,6 +112,26 @@ public class UserController {
 				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
 
 		Registration reg = regsService.findByKey(ico, regDate);
+
+		// TODO delete - testing entity
+		Registration r = new Registration();
+		r.setIco("11111");
+		r.setCompanyName("firstCOmpany");
+		r.setRegDate(LocalDate.now());
+		RegStatus rs = new RegStatus();
+		rs.setId(0);
+		rs.setName("waiting");
+		r.setRegStatus(rs);
+		Branch br = new Branch();
+		br.setName("Zilina");
+		User user = new User();
+		user.setName("User1");
+		Unit u = new Unit();
+		u.setBranch(br);
+		u.setUser(user);
+		r.setUnit(u);
+		reg = r;
+
 		if (reg != null) {
 			model.addAttribute("registration", reg);
 		}
@@ -151,7 +168,7 @@ public class UserController {
 		u.setUser(user);
 		r.setUnit(u);
 		regs.add(r);
-		
+
 		model.addAttribute("registrations_list", regs);
 
 		return JSP_PAGE_REGISTRATIONS_LIST;
@@ -167,7 +184,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = { "/del_reg_{regDateString}_{ico}" }, method = RequestMethod.GET)
-	public void deleteRegistration(ModelMap model, @PathVariable String ico,
+	public String deleteRegistration(ModelMap model, @PathVariable String ico,
 			@PathVariable String regDateString/* , BindingResult result */) {
 
 		LocalDate regDate = LocalDate.parse(regDateString,
@@ -194,6 +211,7 @@ public class UserController {
 		// return JSP_PAGE_ACTION_SUCCESS;
 
 		// TODO find the way what to do after delete
+		return "redirect:show_regs_list";
 	}
 
 	@RequestMapping(value = { "/create_note" }, method = RequestMethod.POST)

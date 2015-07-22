@@ -9,4 +9,6 @@ public interface RoleService {
 
 	List<Role> findAllRoles();
 
+	Role findRoleById(int roleId);
+
 }

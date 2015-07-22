@@ -37,14 +37,14 @@ public class Registration implements Serializable {
 	private LocalDate regDate;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Unit.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Unit.class)
 	@JoinColumns({
 			@JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName = "user_id"),
 			@JoinColumn(name = "unit_branch_id", nullable = false, referencedColumnName = "branch_id") })
 	private Unit unit;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegStatus.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = RegStatus.class)
 	@JoinColumn(name = "regStatus_id", nullable = false)
 	private RegStatus regStatus;
 

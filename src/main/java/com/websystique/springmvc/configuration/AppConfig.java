@@ -1,30 +1,15 @@
 package com.websystique.springmvc.configuration;
 
-import java.io.IOException;
-import java.io.Reader;
-
-import javax.servlet.ServletContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-
-import freemarker.cache.TemplateLoader;
-import freemarker.cache.WebappTemplateLoader;
-import freemarker.template.TemplateException;
 
 @Configuration
 @EnableWebMvc
@@ -33,24 +18,26 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ViewResolver viewResolver() {
-//		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//		viewResolver.setViewClass(JstlView.class);
+		// InternalResourceViewResolver viewResolver = new
+		// InternalResourceViewResolver();
+		// viewResolver.setViewClass(JstlView.class);
 		FreeMarkerViewResolver viewResolver = new FreeMarkerViewResolver();
-//		viewResolver.setViewClass(FreeMarkerView.class);
+		// viewResolver.setViewClass(FreeMarkerView.class);
 		viewResolver.setCache(false);
 		viewResolver.setPrefix("");
-//		viewResolver.setSuffix(".jsp");
+		// viewResolver.setSuffix(".jsp");
 		viewResolver.setSuffix(".ftl");
-		return viewResolver;		
+		return viewResolver;
 	}
-	
+
 	@Bean
-	public FreeMarkerConfigurer freeMarkerConfig(){
-//		FreeMarkerConfigurationFactoryBean beanFactory = new FreeMarkerConfigurationFactoryBean();
-//		beanFactory.setTemplateLoaderPath("/WEB-INF/views/");
-		
+	public FreeMarkerConfigurer freeMarkerConfig() {
+		// FreeMarkerConfigurationFactoryBean beanFactory = new
+		// FreeMarkerConfigurationFactoryBean();
+		// beanFactory.setTemplateLoaderPath("/WEB-INF/views/");
+
 		FreeMarkerConfigurer config = new FreeMarkerConfigurer();
-//		config.setConfiguration(beanFactory.createConfiguration());
+		// config.setConfiguration(beanFactory.createConfiguration());
 		config.setTemplateLoaderPath("/WEB-INF/views/");
 		return config;
 	}

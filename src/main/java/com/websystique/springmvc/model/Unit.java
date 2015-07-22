@@ -15,12 +15,12 @@ public class Unit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
 	@JoinColumn(name = "branch_id", nullable = false)
 	private Branch branch;
 

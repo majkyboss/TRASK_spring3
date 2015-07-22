@@ -53,7 +53,7 @@ public class User {
 	private LocalDate dateOut;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 
@@ -119,5 +119,10 @@ public class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

@@ -29,7 +29,7 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	public void deleteRegistration(String ico, LocalDate registrationDate) {
 		Query query = getSession()
 				.createSQLQuery(
-						"delete from Registration where ico = :ico and regDate = :registrationDate");
+						"delete from Registration where ico = :ico and reg_date = :registrationDate");
 		query.setString("ico", ico);
 		query.setParameter("registrationDate", registrationDate);
 		query.executeUpdate();
