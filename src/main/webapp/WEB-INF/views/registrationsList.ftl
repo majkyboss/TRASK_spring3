@@ -3,7 +3,6 @@
 	
 	<form>
 		<button formaction="create_reg" formmethod="GET"/>Add</button>
-		<button formaction="/Spring3/basic" formmethod="POST">Test Btn</button>
 	</form>
 	
 	<table>

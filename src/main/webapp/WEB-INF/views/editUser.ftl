@@ -1,14 +1,24 @@
 <#import "basicTemplate.ftl" as structure/>
 <#import "spring.ftl" as spring />
 
-<#macro checkSelected value>
-    <#if stringStatusValue?is_number && stringStatusValue == value?number>selected="selected"</#if>
-    <#if stringStatusValue?is_string && stringStatusValue == value>selected="selected"</#if>
+<#macro formSingleSelect path options attributes="">
+	<@spring.bind path/>
+    <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
+        <#if options?is_hash>
+            <#list options?keys as value>
+            <option value="${value?html}"<@spring.checkSelected options[value]/>>${options[value]?html}</option>
+            </#list>
+        <#else> 
+            <#list options as value>
+            <option value="${value?html}"<@spring.checkSelected value/>>${value?html}</option>
+            </#list>
+        </#if>
+    </select>
 </#macro>
 
 <@structure.basic_structure>
 
-	<h1>Create New User</h1>
+	<h1>User Edit</h1>
 
 	<#if user??>
 		<form action="save_user">
@@ -46,11 +56,12 @@
 				</tr>
 				<tr>
 					<td>Role</td>
-					<td><@spring.formSingleSelect "user.role" roles/><td>
+					<td><@formSingleSelect "user.role" roles/><td>
 					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<tr>
 					<td>
+						<@spring.formHiddenInput "user.id"/>
 						<button formaction="save_user" formmethod="POST">Save</button>
 					</td>
 				</tr>

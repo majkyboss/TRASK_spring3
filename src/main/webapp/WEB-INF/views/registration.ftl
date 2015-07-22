@@ -6,19 +6,8 @@
 <@structure.basic_structure>
 
 	<#if registration??>
-
-	<@spring.bind "registration"/>
-
-	<#--
-	<@spring.showErrors "<br>"/>
-	<br>
-	${spring.status}<br>
-	<#list spring.status.errorMessages as error>
-		<b>${error}</b><br>
-	</#list><br>
-	-->
-	
 	<form>
+		<@spring.bind "registration"/>
 		<table>
 			<tr>
 				<td>Company name</td>

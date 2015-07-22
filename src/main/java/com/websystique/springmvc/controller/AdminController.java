@@ -88,13 +88,7 @@ public class AdminController extends UserController {
 		r.setName("testROle");
 		user.setRole(r);
 		model.addAttribute("user", user);
-//		List<Role> roles = roleService.findAllRoles();
-		Map<String, Role> roles = new TreeMap<String, Role>(/*new Comparator<Role>() {
-			@Override
-			public int compare(Role o1, Role o2) {
-				return Integer.compare(o1.getId(), o2.getId());
-			}
-		}*/);
+		Map<String, Role> roles = new TreeMap<String, Role>();
 		for (Role role : roleService.findAllRoles()) {
 			roles.put(role.getId()+"", role);
 		}
@@ -124,8 +118,8 @@ public class AdminController extends UserController {
 
 		userService.saveUser(user);
 
-		model.addAttribute("success", "User (" + user.getBirthNumber()
-				+ ") was created");
+//		model.addAttribute("success", "User (" + user.getBirthNumber()
+//				+ ") was created");
 		loadUsersToPage(model);
 		return "redirect:show_users_list";
 	}
@@ -135,10 +129,9 @@ public class AdminController extends UserController {
 		User user = userService.findById(userId);
 		if (user != null) {
 			model.addAttribute("user", user);
-//			List<Role> roles = roleService.findAllRoles();
-			TreeMap<Integer, Role> roles = new TreeMap<Integer, Role>();
+			TreeMap<String, Role> roles = new TreeMap<String, Role>();
 			for (Role role : roleService.findAllRoles()) {
-				roles.put(role.getId(), role);
+				roles.put(role.getId()+"", role);
 			}
 			model.addAttribute("roles", roles);
 		}
@@ -152,10 +145,10 @@ public class AdminController extends UserController {
 
 		userService.deleteUser(user);
 
-		model.addAttribute("success", "User (" + user.getBirthNumber()
-				+ ") was deleted");
+//		model.addAttribute("success", "User (" + user.getBirthNumber()
+//				+ ") was deleted");
 		loadUsersToPage(model);
-		return "redirect:"+JSP_PAGE_USERS_LIST;
+		return "redirect:show_users_list";
 	}
 
 	@RequestMapping("/show_users_list")
