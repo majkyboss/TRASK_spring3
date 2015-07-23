@@ -21,4 +21,9 @@ public class UnitServiceImpl implements UnitService {
 		dao.saveUnit(unit);
 	}
 
+	@Override
+	public Unit findById(int agentId, int branchId) {
+		return dao.findById(agentId, branchId);
+	}
+
 }

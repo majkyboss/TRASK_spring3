@@ -6,4 +6,6 @@ public interface UnitService {
 
 	void saveUnit(Unit unit);
 
+	Unit findById(int agentId, int branchId);
+
 }

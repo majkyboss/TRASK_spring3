@@ -37,7 +37,7 @@
 					<td><@spring.formSingleSelect "registration.unit.user.name", users, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
-					<td>${registration.unit.user.name}<br></td>
+					<td>${(registration.unit.user.name)!}<br></td>
 					<td><@spring.showErrors "<br>"/></td>
 				</#if>
 			</tr>

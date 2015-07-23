@@ -2,6 +2,7 @@ package com.websystique.springmvc.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -17,12 +18,12 @@ public class Unit implements Serializable {
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	private User user = new User();
 
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Branch.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
 	@JoinColumn(name = "branch_id", nullable = false)
-	private Branch branch;
+	private Branch branch = new Branch();
 
 	public User getUser() {
 		return user;

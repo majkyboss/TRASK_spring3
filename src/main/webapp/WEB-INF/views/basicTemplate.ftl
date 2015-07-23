@@ -30,7 +30,7 @@
 </head>
 <body>
 	<div class="top_menu">
-		{user.name} | <a href="show_regs_list">Registrations</a> | <a href="show_users_list">Users</a> | Branches <span id="login_button">{Login btn}
+		{user.name} | <a href="show_regs_list">Registrations</a> | <a href="show_users_list">Users</a> | <a href="show_branches_list">Branches</a> <span id="login_button">{Login btn}
 			| {Logout btn}</span>
 	</div>
 	<div class="main_content">
@@ -45,6 +45,51 @@
 </body>
 </html>
 </#macro>
+
+<#macro formSingleSelect path options attributes="">
+    <@spring.bind path/>
+    <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
+        <#if options?is_hash>
+            <#list options?keys as value>
+            <option value="${value?html}"<@spring.checkSelected options[value]/>>${options[value]?html}</option>
+            </#list>
+        <#else> 
+            <#list options as value>
+            <option value="${value?html}"<@spring.checkSelected value/>>${value?html}</option>
+            </#list>
+        </#if>
+    </select>
+</#macro>
+
+<#macro formMultiSelect path options valuePostfix="" attributes="" hiddenValues=false>
+    <@spring.bind path/>
+    <select multiple="multiple" id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
+        <#list options?keys as value>
+			<#assign isSelected = false>
+			<#list spring.status.actualValue as unit>
+				<#assign id = unit.user.id>
+				<#if isSelected!=true>
+					<#assign isSelected = id?html==value?html>
+				</#if>
+			</#list>
+        	<#--<#assign isSelected = spring.contains(spring.status.actualValue?default([""]), value)>-->
+        	<option value="${value?html}_${valuePostfix}"<#if isSelected> selected="selected"</#if>>${options[value]?html}</option>
+        </#list>
+		<#list options?keys as value>
+			<#assign isSelected = false>
+			<#list spring.status.actualValue as unit>
+				<#assign id = unit.user.id>
+				<#if isSelected!=true>
+					<#assign isSelected = id?html==value?html>
+				</#if>
+			</#list>
+			<#if hiddenValues && isSelected>
+        		<input type="hidden" value="${value?html}_${valuePostfix}" name="${spring.status.expression}"/>
+        	</#if>
+		</#list>
+    </select>
+</#macro>
+
 
 
 <@basic_structure>

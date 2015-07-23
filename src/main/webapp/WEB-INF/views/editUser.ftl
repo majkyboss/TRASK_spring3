@@ -1,22 +1,9 @@
-<#import "basicTemplate.ftl" as structure/>
+<#import "basicTemplate.ftl" as basic/>
 <#import "spring.ftl" as spring />
 
-<#macro formSingleSelect path options attributes="">
-	<@spring.bind path/>
-    <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
-        <#if options?is_hash>
-            <#list options?keys as value>
-            <option value="${value?html}"<@spring.checkSelected options[value]/>>${options[value]?html}</option>
-            </#list>
-        <#else> 
-            <#list options as value>
-            <option value="${value?html}"<@spring.checkSelected value/>>${value?html}</option>
-            </#list>
-        </#if>
-    </select>
-</#macro>
 
-<@structure.basic_structure>
+
+<@basic.basic_structure>
 
 	<h1>User Edit</h1>
 
@@ -56,7 +43,7 @@
 				</tr>
 				<tr>
 					<td>Role</td>
-					<td><@formSingleSelect "user.role" roles/><td>
+					<td><@basic.formSingleSelect "user.role" roles /><td>
 					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<tr>
@@ -69,4 +56,4 @@
 		</form>
 	</#if>
 
-</@structure.basic_structure>
+</@basic.basic_structure>

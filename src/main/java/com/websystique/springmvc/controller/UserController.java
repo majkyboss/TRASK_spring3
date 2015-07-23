@@ -24,6 +24,7 @@ import com.websystique.springmvc.model.Registration;
 import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.NoteService;
+import com.websystique.springmvc.service.RegStatusService;
 import com.websystique.springmvc.service.RegistrationService;
 import com.websystique.springmvc.service.UserService;
 
@@ -34,8 +35,6 @@ public class UserController {
 
 	private static final String JSP_PAGE_REGISTRATION_DETAIL_FORM = "registration";
 	private static final String JSP_PAGE_REGISTRATION_DETAIL = "registrationDetail";
-	protected static final String JSP_PAGE_ACTION_SUCCESS = "success";
-	protected static final String JSP_PAGE_ACTION_FAILED = "failed";
 	private static final String JSP_PAGE_REGISTRATIONS_LIST = "registrationsList";
 	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "note";
 	private static final String JSP_PAGE_NOTE_DETAIL = "noteDetail";
@@ -57,14 +56,31 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	RegStatusService statusService;
 
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
 	public String createRegistration(ModelMap model) {
 		Registration newReg = new Registration();
-		newReg.setIco("1111");
 		model.addAttribute("registration", newReg);
+		
+		// TODO set current logged user to registration
+		loadUsersToPage(model);
+		
+		loadStatusesToPage(model);
 
 		return JSP_PAGE_REGISTRATION_DETAIL_FORM;
+	}
+
+	private void loadStatusesToPage(ModelMap model) {
+		List<RegStatus> statuses = statusService.findAllStatuses();
+		model.addAttribute("statuses", statuses);
+	}
+
+	private void loadUsersToPage(ModelMap model) {
+		List<User> users = userService.findAllUsers();
+		model.addAttribute("users", users);
 	}
 
 	@RequestMapping(value = { "/create_reg", "/save_reg" }, method = RequestMethod.POST)
@@ -95,7 +111,7 @@ public class UserController {
 				+ registration.getIco() + ") was created with date "
 				+ registration.getRegDate().toString("dd.MM.yyyy"));
 
-		return JSP_PAGE_ACTION_SUCCESS;
+		return "redirect:show_regs_list";
 	}
 
 	@RequestMapping(value = { "/edit_reg_{regDateString}_{ico}" })
@@ -112,25 +128,6 @@ public class UserController {
 				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
 
 		Registration reg = regsService.findByKey(ico, regDate);
-
-		// TODO delete - testing entity
-		Registration r = new Registration();
-		r.setIco("11111");
-		r.setCompanyName("firstCOmpany");
-		r.setRegDate(LocalDate.now());
-		RegStatus rs = new RegStatus();
-		rs.setId(0);
-		rs.setName("waiting");
-		r.setRegStatus(rs);
-		Branch br = new Branch();
-		br.setName("Zilina");
-		User user = new User();
-		user.setName("User1");
-		Unit u = new Unit();
-		u.setBranch(br);
-		u.setUser(user);
-		r.setUnit(u);
-		reg = r;
 
 		if (reg != null) {
 			model.addAttribute("registration", reg);
@@ -149,25 +146,6 @@ public class UserController {
 	@RequestMapping(value = { "/show_regs_list" })
 	public String showRegistrations(ModelMap model) {
 		List<Registration> regs = getRegistrations();
-
-		// TODO delete - testing entity
-		Registration r = new Registration();
-		r.setIco("11111");
-		r.setCompanyName("firstCOmpany");
-		r.setRegDate(LocalDate.now());
-		RegStatus rs = new RegStatus();
-		rs.setId(0);
-		rs.setName("waiting");
-		r.setRegStatus(rs);
-		Branch br = new Branch();
-		br.setName("Zilina");
-		User user = new User();
-		user.setName("User1");
-		Unit u = new Unit();
-		u.setBranch(br);
-		u.setUser(user);
-		r.setUnit(u);
-		regs.add(r);
 
 		model.addAttribute("registrations_list", regs);
 

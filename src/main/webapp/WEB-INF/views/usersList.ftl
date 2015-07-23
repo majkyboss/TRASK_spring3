@@ -5,7 +5,7 @@
 
 	<h1>Users list</h1>
 
-	<#if users??>
+	<#if users?? && users?has_content>
 		<form>
 			<button formaction="create_user" formmethod="GET"/>Add</button>
 		</form>

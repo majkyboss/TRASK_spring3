@@ -1,5 +1,9 @@
 package com.websystique.springmvc.model;
 
+import java.util.Set;
+import java.util.TreeSet;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,6 +33,9 @@ public class Branch {
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "manager_id", nullable = false)
 	private User manager;
+	
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Unit.class)
+	private Set<Unit> agentUnits = new TreeSet<Unit>();
 
 	public int getId() {
 		return id;
@@ -52,5 +60,14 @@ public class Branch {
 	public void setManager(User manager) {
 		this.manager = manager;
 	}
+
+	public Set<Unit> getAgentUnits() {
+		return agentUnits;
+	}
+
+	public void setAgentUnits(Set<Unit> agentUnits) {
+		this.agentUnits = agentUnits;
+	}
+
 
 }
