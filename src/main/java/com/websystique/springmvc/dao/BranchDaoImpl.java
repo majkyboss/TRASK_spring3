@@ -3,6 +3,7 @@ package com.websystique.springmvc.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.Branch;
@@ -18,6 +19,7 @@ public class BranchDaoImpl extends AbstractDao implements BranchDao {
 	@Override
 	public List<Branch> findAllBranches() {
 		Criteria criteria = getSession().createCriteria(Branch.class);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
 	}
 
