@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractDao {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	protected SessionFactory sessionFactory;
 
 	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
 	public void persist(Object entity) {
-//		getSession().persist(entity);
+		// getSession().persist(entity);
 		getSession().saveOrUpdate(entity);
 	}
 

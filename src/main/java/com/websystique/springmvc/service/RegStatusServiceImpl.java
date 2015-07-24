@@ -23,4 +23,9 @@ public class RegStatusServiceImpl implements RegStatusService {
 		return dao.findAllStatuses();
 	}
 
+	@Override
+	public RegStatus findById(int statusId) {
+		return dao.findById(statusId);
+	}
+
 }

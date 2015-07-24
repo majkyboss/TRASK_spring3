@@ -14,4 +14,8 @@ public interface UserService {
 	User findById(int userId);
 
 	void deleteUser(User user);
+
+	List<User> findAllUsersInUnits();
+
+	List<User> findAllUsersInUnit(int id);
 }

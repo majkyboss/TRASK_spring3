@@ -1,9 +1,9 @@
-<#import "basicTemplate.ftl" as structure/>
+<#import "basicTemplate.ftl" as basic/>
 <#import "spring.ftl" as spring />
 
 
 
-<@structure.basic_structure>
+<@basic.basic_structure>
 
 	<#if registration??>
 	<form>
@@ -22,7 +22,7 @@
 			<tr>
 				<td>Status</td>
 				<#if statuses??>
-					<td><@spring.formSingleSelect "registration.regStatus.name", statuses, ""/></td>
+					<td><@basic.formSingleSelect "registration.regStatus", statuses, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
 					<@spring.formHiddenInput "registration.regStatus"/>
@@ -34,7 +34,7 @@
 				<td>Registrator</td>
 				<#if users??>
 					<#--<td>${user.name}</td>-->
-					<td><@spring.formSingleSelect "registration.unit.user.name", users, ""/></td>
+					<td><@basic.formSingleSelect "registration.unit.user", users, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
 					<td>${(registration.unit.user.name)!}<br></td>
@@ -54,4 +54,4 @@
 	
 	</#if>
 
-</@structure.basic_structure>
+</@basic.basic_structure>

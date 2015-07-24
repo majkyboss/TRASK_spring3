@@ -12,4 +12,10 @@ public interface UnitDao {
 
 	List<Unit> findAllByBranchId(int id);
 
+	Unit findByUserId(int agentId);
+
+	List<Unit> findAllUnits();
+
+	void deleteById(int userId, int branchId);
+
 }

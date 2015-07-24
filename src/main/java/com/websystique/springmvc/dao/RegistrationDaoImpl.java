@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.LocalDate;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.Registration;
@@ -21,8 +22,18 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Registration> findAllRegistrations() {
-		Criteria criteria = getSession().createCriteria(Registration.class);
-		return (List<Registration>) criteria.list();
+		// Criteria criteria = getSession().createCriteria(Registration.class);
+		HibernateDaoSupport c = new HibernateDaoSupport() {
+		};
+		c.setSessionFactory(sessionFactory);
+		List<Registration> regs = c.getHibernateTemplate().findByExample(
+				new Registration());
+		for (Registration registration : regs) {
+			c.getHibernateTemplate().initialize(
+					registration.getUnit().getBranch());
+		}
+		// return (List<Registration>) criteria.list();
+		return regs;
 	}
 
 	@Override

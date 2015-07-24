@@ -125,6 +125,9 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return name;
+		// return "User: id[" + id + "] name[" + name + "] lastName[" + lastName
+		// + "] birthNumber[" + birthNumber + "] dateIn[" + dateIn
+		// + "] dateOut[" + dateOut + "] role[" + role + "]";
+		return name + " " + lastName;
 	}
 }

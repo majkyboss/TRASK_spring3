@@ -43,4 +43,14 @@ public class UserServiceImpl implements UserService {
 		dao.deleteUser(user);
 	}
 
+	@Override
+	public List<User> findAllUsersInUnits() {
+		return dao.findAllUsersInUnits();
+	}
+
+	@Override
+	public List<User> findAllUsersInUnit(int branchId) {
+		return dao.findAllUsersInUnit(branchId);
+	}
+
 }

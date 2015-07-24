@@ -8,4 +8,6 @@ public interface RegStatusDao {
 
 	List<RegStatus> findAllStatuses();
 
+	RegStatus findById(int statusId);
+
 }

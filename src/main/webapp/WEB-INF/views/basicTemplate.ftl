@@ -51,11 +51,11 @@
     <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
         <#if options?is_hash>
             <#list options?keys as value>
-            <option value="${value?html}"<@spring.checkSelected options[value]/>>${options[value]?html}</option>
+            <option value="${value?html}" <@spring.checkSelected options[value]/> >${options[value]?html}</option>
             </#list>
         <#else> 
             <#list options as value>
-            <option value="${value?html}"<@spring.checkSelected value/>>${value?html}</option>
+            <option value="${value?html}" <@spring.checkSelected value/> >${value?html}</option>
             </#list>
         </#if>
     </select>

@@ -3,7 +3,6 @@ package com.websystique.springmvc.model;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +32,7 @@ public class Branch {
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinColumn(name = "manager_id", nullable = false)
 	private User manager;
-	
+
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Unit.class)
 	private Set<Unit> agentUnits = new TreeSet<Unit>();
 
@@ -68,6 +67,5 @@ public class Branch {
 	public void setAgentUnits(Set<Unit> agentUnits) {
 		this.agentUnits = agentUnits;
 	}
-
 
 }

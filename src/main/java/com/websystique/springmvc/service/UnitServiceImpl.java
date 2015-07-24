@@ -26,4 +26,14 @@ public class UnitServiceImpl implements UnitService {
 		return dao.findById(agentId, branchId);
 	}
 
+	@Override
+	public Unit findByUserId(int agentId) {
+		return dao.findByUserId(agentId);
+	}
+
+	@Override
+	public void deleteById(int userId, int branchId) {
+		dao.deleteById(userId, branchId);
+	}
+
 }

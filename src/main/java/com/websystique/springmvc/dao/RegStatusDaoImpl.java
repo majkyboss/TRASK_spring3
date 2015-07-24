@@ -16,4 +16,9 @@ public class RegStatusDaoImpl extends AbstractDao implements RegStatusDao {
 		return criteria.list();
 	}
 
+	@Override
+	public RegStatus findById(int statusId) {
+		return (RegStatus) getSession().get(RegStatus.class, statusId);
+	}
+
 }

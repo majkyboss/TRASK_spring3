@@ -3,7 +3,6 @@ package com.websystique.springmvc.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.Branch;

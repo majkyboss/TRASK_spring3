@@ -8,4 +8,8 @@ public interface UnitService {
 
 	Unit findById(int agentId, int branchId);
 
+	Unit findByUserId(int id);
+
+	void deleteById(int id, int id2);
+
 }

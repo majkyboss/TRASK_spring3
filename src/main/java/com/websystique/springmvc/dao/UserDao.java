@@ -16,4 +16,7 @@ public interface UserDao {
 
 	void deleteUser(User user);
 
+	List<User> findAllUsersInUnits();
+
+	List<User> findAllUsersInUnit(int branchId);
 }

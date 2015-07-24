@@ -11,3 +11,6 @@ INSERT INTO `spring3`.`RegStatus` (`name`) VALUES ("new");
 INSERT INTO `spring3`.`RegStatus` (`name`) VALUES ("approved");
 INSERT INTO `spring3`.`RegStatus` (`name`) VALUES ("declimed");
 SELECT * FROM spring3.RegStatus;
+
+INSERT INTO `spring3`.`User` (`birth_date`, `date_in`, `degree`, `lastname`, `name`, `role_id`) VALUES ('0611898661', '2015-07-01', 'Bc', 'Banik', 'Michal', '2');
+INSERT INTO `spring3`.`Branch` (`name`, `manager_id`) VALUES ('Zilina', '1');

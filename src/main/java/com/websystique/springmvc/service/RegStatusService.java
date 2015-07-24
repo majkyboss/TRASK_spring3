@@ -8,4 +8,6 @@ public interface RegStatusService {
 
 	List<RegStatus> findAllStatuses();
 
+	RegStatus findById(int statusId);
+
 }
