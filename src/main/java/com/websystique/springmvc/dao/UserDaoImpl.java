@@ -47,6 +47,11 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	@Override
 	public void deleteUser(User user) {
 		delete(user);
+		
+//		Object persistentInstance = getSession().load(User.class, user.getId());
+//		if (persistentInstance!=null) {
+//			getSession().delete(persistentInstance);
+//		}
 	}
 
 	@Override

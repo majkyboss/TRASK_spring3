@@ -36,15 +36,25 @@ public class Registration implements Serializable {
 	@Column(name = "reg_date")
 	private LocalDate regDate;
 
+//	@NotNull
+//	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Unit.class)
+//	@JoinColumns({
+//			@JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName = "user_id"),
+//			@JoinColumn(name = "unit_branch_id", nullable = false, referencedColumnName = "branch_id") })
+//	private Unit unit;
+	
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Unit.class)
-	@JoinColumns({
-			@JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName = "user_id"),
-			@JoinColumn(name = "unit_branch_id", nullable = false, referencedColumnName = "branch_id") })
-	private Unit unit;
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@JoinColumn(name = "registrator", nullable = false)
+	private User registrator;
+	
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
+	@JoinColumn(name = "reg_branch", nullable = false)
+	private Branch registratorBranch;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = RegStatus.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegStatus.class)
 	@JoinColumn(name = "regStatus_id", nullable = false)
 	private RegStatus regStatus;
 
@@ -72,19 +82,27 @@ public class Registration implements Serializable {
 		this.regDate = regDate;
 	}
 
-	public Unit getUnit() {
-		return unit;
-	}
-
-	public void setUnit(Unit unit) {
-		this.unit = unit;
-	}
-
 	public RegStatus getRegStatus() {
 		return regStatus;
 	}
 
 	public void setRegStatus(RegStatus regStatus) {
 		this.regStatus = regStatus;
+	}
+
+	public User getRegistrator() {
+		return registrator;
+	}
+
+	public void setRegistrator(User registrator) {
+		this.registrator = registrator;
+	}
+
+	public Branch getRegistratorBranch() {
+		return registratorBranch;
+	}
+
+	public void setRegistratorBranch(Branch registratorBranch) {
+		this.registratorBranch = registratorBranch;
 	}
 }

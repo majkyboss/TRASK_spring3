@@ -55,7 +55,7 @@ public class User implements Serializable {
 	private LocalDate dateOut;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 

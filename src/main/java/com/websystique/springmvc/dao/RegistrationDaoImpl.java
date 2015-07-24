@@ -23,14 +23,16 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	@Override
 	public List<Registration> findAllRegistrations() {
 		// Criteria criteria = getSession().createCriteria(Registration.class);
-		HibernateDaoSupport c = new HibernateDaoSupport() {
-		};
-		c.setSessionFactory(sessionFactory);
-		List<Registration> regs = c.getHibernateTemplate().findByExample(
+
+		List<Registration> regs = getHibernateTemplate().findByExample(
 				new Registration());
 		for (Registration registration : regs) {
-			c.getHibernateTemplate().initialize(
-					registration.getUnit().getBranch());
+			getHibernateTemplate().initialize(
+					registration.getRegistrator());
+			getHibernateTemplate().initialize(
+					registration.getRegistratorBranch());
+			getHibernateTemplate().initialize(
+					registration.getRegStatus());
 		}
 		// return (List<Registration>) criteria.list();
 		return regs;
@@ -38,12 +40,16 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 
 	@Override
 	public void deleteRegistration(String ico, LocalDate registrationDate) {
-		Query query = getSession()
+		Query query = getHibernateTemplate().
 				.createSQLQuery(
 						"delete from Registration where ico = :ico and reg_date = :registrationDate");
 		query.setString("ico", ico);
 		query.setParameter("registrationDate", registrationDate);
 		query.executeUpdate();
+		Registration r = new Registration();
+		r.setIco(ico);
+		r.setRegDate(registrationDate);
+		getHibernateTemplate().
 	}
 
 	@Override

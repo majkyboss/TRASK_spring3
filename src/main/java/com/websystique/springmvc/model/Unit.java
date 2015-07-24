@@ -15,7 +15,7 @@ public class Unit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user = new User();
 
