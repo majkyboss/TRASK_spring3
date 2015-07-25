@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +27,13 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public List<Registration> findAllRegistrations() {
-		return dao.findAllRegistrations();
+		List<Registration> regs = dao.findAllRegistrations();
+		for (Registration r : regs) {
+			Hibernate.initialize(r.getRegistrator());
+			Hibernate.initialize(r.getRegistratorBranch());
+			Hibernate.initialize(r.getRegStatus());
+		}
+		return regs;
 	}
 
 	@Override
@@ -42,12 +49,23 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public Registration findByKey(String ico, LocalDate regDate) {
-		return dao.findByKey(ico, regDate);
+		Registration reg = dao.findByKey(ico, regDate);
+		if (reg != null) {
+			Hibernate.initialize(reg.getRegistrator());
+			Hibernate.initialize(reg.getRegistratorBranch());
+			Hibernate.initialize(reg.getRegStatus());
+		}
+		return reg;
 	}
 
 	@Override
 	public List<Registration> findAllByManagerId(int managerId) {
 		return dao.findAllByManagerId(managerId);
+	}
+
+	@Override
+	public void deleteRegistration(Registration registration) {
+		dao.deleteRegistration(registration);
 	}
 
 }

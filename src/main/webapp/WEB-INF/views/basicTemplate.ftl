@@ -51,42 +51,28 @@
     <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
         <#if options?is_hash>
             <#list options?keys as value>
-            <option value="${value?html}" <@spring.checkSelected options[value]/> >${options[value]?html}</option>
+            	<option value="${value?html}" <@spring.checkSelected options[value]/> >${options[value]?html}</option>
             </#list>
         <#else> 
             <#list options as value>
-            <option value="${value?html}" <@spring.checkSelected value/> >${value?html}</option>
+            	<option value="${value?html}" <@spring.checkSelected value/> >${value?html}</option>
             </#list>
         </#if>
     </select>
 </#macro>
 
-<#macro formMultiSelect path options valuePostfix="" attributes="" hiddenValues=false>
+<#macro formMultiSelect path options attributes="">
     <@spring.bind path/>
     <select multiple="multiple" id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
         <#list options?keys as value>
-			<#assign isSelected = false>
-			<#list spring.status.actualValue as unit>
-				<#assign id = unit.user.id>
-				<#if isSelected!=true>
-					<#assign isSelected = id?html==value?html>
-				</#if>
-			</#list>
-        	<#--<#assign isSelected = spring.contains(spring.status.actualValue?default([""]), value)>-->
-        	<option value="${value?html}_${valuePostfix}"<#if isSelected> selected="selected"</#if>>${options[value]?html}</option>
+        	<#assign isSelected = spring.contains(spring.status.actualValue?default([""]), options[value])>
+			<#if isSelected>
+				<#assign selected = "selected=selected">
+			<#else>
+				<#assign selected = "">
+			</#if>
+        	<option value="${value?html}" ${selected}>${options[value]?html}</option>
         </#list>
-		<#list options?keys as value>
-			<#assign isSelected = false>
-			<#list spring.status.actualValue as unit>
-				<#assign id = unit.user.id>
-				<#if isSelected!=true>
-					<#assign isSelected = id?html==value?html>
-				</#if>
-			</#list>
-			<#if hiddenValues && isSelected>
-        		<input type="hidden" value="${value?html}_${valuePostfix}" name="${spring.status.expression}"/>
-        	</#if>
-		</#list>
     </select>
 </#macro>
 

@@ -18,11 +18,11 @@
 					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<tr>
+					<td>Agents</td>
 					<td>
-						<@basic.formMultiSelect "branch.agentUnits" users branch.id "disabled" true/>
+						<@basic.formMultiSelect "branch.agents" users ""/>
 					</td>
-					<td></td>
-					<td></td>
+					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<#--
 				<tr>

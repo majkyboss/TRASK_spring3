@@ -17,10 +17,10 @@
 				<td>${branch.name!""}</td>
 				<td>${(branch.manager.name)!""} ${(branch.manager.lastName)!""}</td>
 				<td>
-					<#list branch.agentUnits as unit>
-						${unit.user.name} ${unit.user.lastName}<br>
+					<#list branch.agents as agent>
+						${agent.name} ${agent.lastName}<br>
 					</#list>
-					<a href="add_user_to_branch_${branch.id}">add agent</a>
+					<#--<a href="add_user_to_branch_${branch.id}">add agent</a>-->
 				</td>
 				
 				<td><a href="edit_branch_${branch.id}">edit</a></td>

@@ -103,27 +103,28 @@ public class UserController {
 					}
 				});
 
-		binder.registerCustomEditor(TreeSet.class, "agentUnits",
+		binder.registerCustomEditor(TreeSet.class, "agents",
 				new CustomCollectionEditor(Set.class) {
 					@Override
 					protected Object convertElement(Object element) {
 						if (element instanceof String) {
-							String[] ids = ((String) element).split("\\_");
+//							String[] ids = ((String) element).split("\\_");
 
-							int agentId = Integer.parseInt(ids[0]);
+							int agentId = Integer.parseInt((String) element);
 							User user = userService.findById(agentId);
 
-							int branchId = Integer.parseInt(ids[1]);
-							Unit unit = unitService.findById(agentId, branchId);
-							if (unit == null) {
-								unit = new Unit();
-								unit.setUser(user);
-								Branch b = branchService.findById(branchId);
-								unit.setBranch(b);
-								unitService.saveUnit(unit);
-							}
-
-							return unit;
+//							int branchId = Integer.parseInt(ids[1]);
+//							Unit unit = unitService.findById(agentId, branchId);
+//							if (unit == null) {
+//								unit = new Unit();
+//								unit.setUser(user);
+//								Branch b = branchService.findById(branchId);
+//								unit.setBranch(b);
+//								unitService.saveUnit(unit);
+//							}
+//
+//							return unit;
+							return user;
 						}
 
 						return null;
@@ -141,7 +142,7 @@ public class UserController {
 					}
 				});
 
-		binder.registerCustomEditor(User.class, "unit.user",
+		binder.registerCustomEditor(User.class, "registrator",
 				new PropertyEditorSupport() {
 					@Override
 					public void setAsText(String text)
@@ -170,17 +171,17 @@ public class UserController {
 		Registration newReg = new Registration();
 		newReg.setRegDate(LocalDate.now());
 
-		User user = new User();
-		user.setName("testUser");
-		user.setId(5555);
-		Unit u = new Unit();
-		u.setUser(user);
-		newReg.setUnit(u);
+//		User user = new User();
+//		user.setName("testUser");
+//		user.setId(5555);
+//		Unit u = new Unit();
+//		u.setUser(user);
+//		newReg.setUnit(u);
 
 		model.addAttribute("registration", newReg);
 
 		// TODO set current logged user to registration
-		loadUnitUsersToPage(model);
+		loadUsersInBranchesToPage(model);
 
 		loadStatusesToPage(model);
 
@@ -188,7 +189,6 @@ public class UserController {
 	}
 
 	private void loadStatusesToPage(ModelMap model) {
-		// List<RegStatus> statuses = statusService.findAllStatuses();
 		TreeMap<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
 		for (RegStatus status : statusService.findAllStatuses()) {
 			statuses.put(status.getId() + "", status);
@@ -196,13 +196,10 @@ public class UserController {
 		model.addAttribute("statuses", statuses);
 	}
 
-	private void loadUnitUsersToPage(ModelMap model) {
-		// List<User> users = userService.findAllUsers();
+	private void loadUsersInBranchesToPage(ModelMap model) {
 		Map<String, User> users = new TreeMap<String, User>();
-		// find all units
 
-		// for each unit take
-		for (User user : userService.findAllUsersInUnits()) {
+		for (User user : userService.findAllUsersInBranches()) {
 			users.put(user.getId() + "", user);
 		}
 		model.addAttribute("users", users);
@@ -222,33 +219,31 @@ public class UserController {
 		if (result.hasErrors())
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
-		// reload missing data
-		Unit fullUnit = unitService.findByUserId(registration.getUnit()
-				.getUser().getId());
-		registration.setUnit(fullUnit);
+		// load missing data
+//		Branch regBranch = branchService.findByAgentId(registration.getRegistrator().getId());
+//		registration.setRegistratorBranch(regBranch);
+		
+		registration.setRegistratorBranch(registration.getRegistrator().getCurrentBranch());
 
 		registration.setRegDate(LocalDate.now());
 
 		// TODO test if the registration is unique - check the ico and date
-		if (!regsService.isRegistrationUnique(registration.getIco(),
-				registration.getRegDate())) {
-			FieldError error = new FieldError("registration", "key",
-					messageSource.getMessage(
-							"non.unique.registration",
-							new String[] {
-									registration.getIco(),
-									registration.getRegDate().toString(
-											DATE_FORMAT_PATTERN) },
-							Locale.getDefault()));
-			result.addError(error);
-			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
-		}
+//		if (!regsService.isRegistrationUnique(registration.getIco(),
+//				registration.getRegDate())) {
+//			FieldError error = new FieldError("registration", "key",
+//					messageSource.getMessage(
+//							"non.unique.registration",
+//							new String[] {
+//									registration.getIco(),
+//									registration.getRegDate().toString(
+//											DATE_FORMAT_PATTERN) },
+//							Locale.getDefault()));
+//			result.addError(error);
+//			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
+//		}
 
 		regsService.saveRegistration(registration);
-		model.addAttribute("success", "Registration of company (ico: "
-				+ registration.getIco() + ") was created with date "
-				+ registration.getRegDate().toString("dd.MM.yyyy"));
-
+		
 		return "redirect:show_regs_list";
 	}
 
@@ -305,28 +300,10 @@ public class UserController {
 
 		LocalDate regDate = LocalDate.parse(regDateString,
 				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
+		
+		Registration reg = regsService.findByKey(ico, regDate);
+		regsService.deleteRegistration(reg);
 
-		// Registration reg = regsService.findByKey(ico, regDate);
-		// if (reg == null) {
-		// FieldError error = new FieldError("registration", "key",
-		// messageSource.getMessage("not.found.registration",
-		// new String[] { ico, regDateString },
-		// Locale.getDefault()));
-		// result.addError(error);
-		// return JSP_PAGE_ACTION_FAILED;
-		// }
-
-		regsService.deleteRegistration(ico, regDate);
-		// model.addAttribute(
-		// "success",
-		// "Registration of company (ico: " + reg.getIco()
-		// + ", registration date: "
-		// + reg.getReg_date().toString("dd.MM.yyyy")
-		// + " was deleted.");
-		//
-		// return JSP_PAGE_ACTION_SUCCESS;
-
-		// TODO find the way what to do after delete
 		return "redirect:show_regs_list";
 	}
 

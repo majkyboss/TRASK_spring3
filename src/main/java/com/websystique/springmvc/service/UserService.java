@@ -15,7 +15,7 @@ public interface UserService {
 
 	void deleteUser(User user);
 
-	List<User> findAllUsersInUnits();
+	List<User> findAllUsersInBranches();
 
-	List<User> findAllUsersInUnit(int id);
+	List<User> findAllUsersInBranch(int id);
 }

@@ -19,8 +19,8 @@
 				<td>${registration.ico!""}</td>
 				<td>${registration.companyName!""}</td>
 				<td>${registration.regDate!""}</td>
-				<td>${registration.unit.user.name!""}</td>
-				<td>${registration.unit.branch.name!""}</td>
+				<td>${registration.registrator.name!""}</td>
+				<td>${registration.registrator.currentBranch.name!""}</td>
 				<td>${registration.regStatus.name!""}</td>
 				<td><a href="edit_reg_${(registration.regDate.toString('dd.MM.yyyy'))!}_${registration.ico}">edit</a></td>
 				<td><a href="del_reg_${(registration.regDate.toString('dd.MM.yyyy'))!}_${registration.ico}">delete</a></td>

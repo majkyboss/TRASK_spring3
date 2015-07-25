@@ -12,4 +12,8 @@ public interface BranchService {
 
 	Branch findById(int branchId);
 
+	void deleteBranch(Branch b);
+
+	Branch findByAgentId(int id);
+
 }

@@ -18,4 +18,6 @@ public interface RegistrationDao {
 
 	List<Registration> findAllByManagerId(int managerId);
 
+	void deleteRegistration(Registration registration);
+
 }

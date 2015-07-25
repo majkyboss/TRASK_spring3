@@ -29,12 +29,12 @@ public class Branch {
 	private String name;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	@JoinColumn(name = "manager_id", nullable = false)
 	private User manager;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Unit.class)
-	private Set<Unit> agentUnits = new TreeSet<Unit>();
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+	private Set<User> agents = new TreeSet<User>();
 
 	public int getId() {
 		return id;
@@ -60,12 +60,12 @@ public class Branch {
 		this.manager = manager;
 	}
 
-	public Set<Unit> getAgentUnits() {
-		return agentUnits;
+	public Set<User> getAgents() {
+		return agents;
 	}
 
-	public void setAgentUnits(Set<Unit> agentUnits) {
-		this.agentUnits = agentUnits;
+	public void setAgents(Set<User> agents) {
+		this.agents = agents;
 	}
 
 }

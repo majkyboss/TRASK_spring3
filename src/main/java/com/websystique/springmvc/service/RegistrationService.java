@@ -18,4 +18,6 @@ public interface RegistrationService {
 	Registration findByKey(String ico, LocalDate regDate);
 
 	List<Registration> findAllByManagerId(int managerId);
+
+	void deleteRegistration(Registration registration);
 }

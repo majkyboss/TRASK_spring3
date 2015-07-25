@@ -34,10 +34,10 @@
 				<td>Registrator</td>
 				<#if users??>
 					<#--<td>${user.name}</td>-->
-					<td><@basic.formSingleSelect "registration.unit.user", users, ""/></td>
+					<td><@basic.formSingleSelect "registration.registrator", users, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
-					<td>${(registration.unit.user.name)!}<br></td>
+					<td>${(registration.registrator)!}<br></td>
 					<td><@spring.showErrors "<br>"/></td>
 				</#if>
 			</tr>
@@ -47,7 +47,9 @@
 				<td><@spring.showErrors "<br>"/></td>
 			</tr>
 			<tr>
-				<td><button formaction="save_reg" formmethod="POST">Save</button></td>
+				<td>
+					<button formaction="save_reg" formmethod="POST">Save</button>
+				</td>
 			</tr>
 		</table>
 	</form>

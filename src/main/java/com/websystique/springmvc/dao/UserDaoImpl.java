@@ -14,10 +14,6 @@ import com.websystique.springmvc.model.User;
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
-	@Autowired
-	@Qualifier("unitDao")
-	UnitDao unitDao;
-
 	@Override
 	public void saveUser(User user) {
 		persist(user);
@@ -47,32 +43,6 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	@Override
 	public void deleteUser(User user) {
 		delete(user);
-	}
-
-	@Override
-	public List<User> findAllUsersInUnits() {
-		List<Unit> units = unitDao.findAllUnits();
-		List<User> users = new LinkedList<User>();
-		for (Unit unit : units) {
-			if (!users.contains(unit.getUser())) {
-				users.add(unit.getUser());
-			}
-		}
-
-		return users;
-	}
-
-	@Override
-	public List<User> findAllUsersInUnit(int branchId) {
-		List<Unit> units = unitDao.findAllByBranchId(branchId);
-		List<User> users = new LinkedList<User>();
-		for (Unit unit : units) {
-			if (!users.contains(unit.getUser())) {
-				users.add(unit.getUser());
-			}
-		}
-
-		return users;
 	}
 
 }

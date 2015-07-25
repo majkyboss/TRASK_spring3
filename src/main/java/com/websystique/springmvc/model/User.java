@@ -20,7 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "User")
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,9 +55,12 @@ public class User implements Serializable {
 	private LocalDate dateOut;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
+	
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
+	private Branch currentBranch;
 
 	public int getId() {
 		return id;
@@ -129,5 +132,18 @@ public class User implements Serializable {
 		// + "] birthNumber[" + birthNumber + "] dateIn[" + dateIn
 		// + "] dateOut[" + dateOut + "] role[" + role + "]";
 		return name + " " + lastName;
+	}
+
+	@Override
+	public int compareTo(User o) {
+		return Integer.compare(id, o.id);
+	}
+
+	public Branch getCurrentBranch() {
+		return currentBranch;
+	}
+
+	public void setCurrentBranch(Branch currentBranch) {
+		this.currentBranch = currentBranch;
 	}
 }

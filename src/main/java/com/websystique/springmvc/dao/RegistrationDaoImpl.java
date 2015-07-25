@@ -22,18 +22,9 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Registration> findAllRegistrations() {
-		// Criteria criteria = getSession().createCriteria(Registration.class);
-		HibernateDaoSupport c = new HibernateDaoSupport() {
-		};
-		c.setSessionFactory(sessionFactory);
-		List<Registration> regs = c.getHibernateTemplate().findByExample(
-				new Registration());
-		for (Registration registration : regs) {
-			c.getHibernateTemplate().initialize(
-					registration.getUnit().getBranch());
-		}
-		// return (List<Registration>) criteria.list();
-		return regs;
+		Criteria criteria = getSession().createCriteria(Registration.class);
+		return (List<Registration>) criteria.list();
+		// return regs;
 	}
 
 	@Override
@@ -60,6 +51,11 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 		// http://stackoverflow.com/questions/2347359/hibernate-createcriteria-or-createalias
 		// TODO join via unit and branch
 		return null;
+	}
+
+	@Override
+	public void deleteRegistration(Registration registration) {
+		getSession().delete(registration);
 	}
 
 }

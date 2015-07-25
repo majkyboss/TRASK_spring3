@@ -18,13 +18,14 @@
 				<tr>
 					<td>Agents</td>
 					<td>
-						<@basic.formMultiSelect "branch.agentUnits" users branch.id/>
+						<@spring.formMultiSelect "branch.agents" users/>
 					</td>
 					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<tr>
 					<td>
 						<@spring.formHiddenInput "branch.id"/>
+						<@spring.formHiddenInput "branch.name"/>
 						<@spring.formHiddenInput "branch.manager.id"/>
 						<button formaction="update_branch_users" formmethod="POST">Save</button>
 					</td>
