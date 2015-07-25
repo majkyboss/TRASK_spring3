@@ -4,12 +4,11 @@
 <@structure.basic_structure>
 
 	<h1>Users list</h1>
+	<form>
+		<button formaction="create_user" formmethod="GET"/>Add</button>
+	</form>
 
-	<#if users?? && users?has_content>
-		<form>
-			<button formaction="create_user" formmethod="GET"/>Add</button>
-		</form>
-		
+	<#if users?? && users?has_content>		
 		<table>
 			<tr>
 				<th>First name</th>
