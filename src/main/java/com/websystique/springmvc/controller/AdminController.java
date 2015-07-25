@@ -1,6 +1,5 @@
 package com.websystique.springmvc.controller;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -9,9 +8,7 @@ import java.util.TreeSet;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,7 +21,6 @@ import com.websystique.springmvc.model.Branch;
 import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Registration;
 import com.websystique.springmvc.model.Role;
-import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.RegStatusService;
 import com.websystique.springmvc.service.UserService;
@@ -54,19 +50,18 @@ public class AdminController extends UserController {
 
 		return super.editRegistration(model, ico, regDateString);
 	}
-	
+
 	@Override
 	public String saveRegistration(Registration registration,
 			BindingResult result, ModelMap model) {
-		if (result.hasErrors()){
+		if (result.hasErrors()) {
 			LoadStatusesToPageAsMap(model);
 
 			loadUsersToPageAsMap(model);
 		}
-		
+
 		return super.saveRegistration(registration, result, model);
 	}
-
 
 	@RequestMapping("/create_user")
 	public String createUser(@ModelAttribute("user") User user, ModelMap model) {
@@ -116,7 +111,7 @@ public class AdminController extends UserController {
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(e);
 		}
-		
+
 		return "redirect:show_users_list";
 	}
 
@@ -140,11 +135,11 @@ public class AdminController extends UserController {
 		}
 		model.addAttribute("users", users);
 	}
-	
-	private void LoadStatusesToPageAsMap(ModelMap model){
+
+	private void LoadStatusesToPageAsMap(ModelMap model) {
 		Map<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
 		for (RegStatus status : statusService.findAllStatuses()) {
-			statuses.put(status.getId()+"", status);
+			statuses.put(status.getId() + "", status);
 		}
 		model.addAttribute("statuses", statuses);
 	}
@@ -214,10 +209,10 @@ public class AdminController extends UserController {
 		}
 
 		branchService.saveBranch(branch);
-		
+
 		return showBranches(model);
 	}
-	
+
 	@RequestMapping("/del_branch_{branchId}")
 	public String deleteBranch(@PathVariable int branchId, ModelMap model) {
 		Branch b = branchService.findById(branchId);

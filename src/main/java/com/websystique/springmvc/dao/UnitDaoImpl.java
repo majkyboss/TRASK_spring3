@@ -7,7 +7,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.websystique.springmvc.model.Branch;
 import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 
@@ -68,20 +67,21 @@ public class UnitDaoImpl extends AbstractDao implements UnitDao {
 
 	@Override
 	public void deleteById(int userId, int branchId) {
-//		HibernateDaoSupport c = new HibernateDaoSupport() {
-//		};
-//		c.setSessionFactory(sessionFactory);
-//		Unit exampleUnit = new Unit();
-//		User u = new User();
-//		u.setId(userId);
-//		Branch b = new Branch();
-//		b.setId(branchId);
-//		exampleUnit.setUser(u);
-//		exampleUnit.setBranch(b);
-//		List<Unit> units = c.getHibernateTemplate().findByExample(exampleUnit);
-//		if (units.size() > 0) {
-//			delete(units.get(0));
-//		}
+		// HibernateDaoSupport c = new HibernateDaoSupport() {
+		// };
+		// c.setSessionFactory(sessionFactory);
+		// Unit exampleUnit = new Unit();
+		// User u = new User();
+		// u.setId(userId);
+		// Branch b = new Branch();
+		// b.setId(branchId);
+		// exampleUnit.setUser(u);
+		// exampleUnit.setBranch(b);
+		// List<Unit> units =
+		// c.getHibernateTemplate().findByExample(exampleUnit);
+		// if (units.size() > 0) {
+		// delete(units.get(0));
+		// }
 	}
 
 }

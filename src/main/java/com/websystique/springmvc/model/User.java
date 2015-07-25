@@ -58,7 +58,7 @@ public class User implements Serializable, Comparable<User> {
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
 	private Branch currentBranch;
 

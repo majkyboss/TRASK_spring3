@@ -1,10 +1,8 @@
 package com.websystique.springmvc.service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Consumer;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +61,8 @@ public class BranchServiceImpl implements BranchService {
 		}
 
 		dao.saveBranch(oldBranch);
-		// if will be problem to store the user - diff object with same id - add actual
+		// if will be problem to store the user - diff object with same id - add
+		// actual
 		// users into branch above
 		for (User user : newUsersToStore) {
 			user.setCurrentBranch(branch);
@@ -96,11 +95,6 @@ public class BranchServiceImpl implements BranchService {
 			userDao.saveUser(user);
 		}
 		dao.deleteBranch(branch);
-	}
-
-	@Override
-	public Branch findByAgentId(int agentId) {
-		return dao.findByAgentId(agentId);
 	}
 
 }

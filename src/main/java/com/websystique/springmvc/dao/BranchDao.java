@@ -13,7 +13,4 @@ public interface BranchDao {
 	Branch findById(int branchId);
 
 	void deleteBranch(Branch branch);
-
-	Branch findByAgentId(int agentId);
-
 }

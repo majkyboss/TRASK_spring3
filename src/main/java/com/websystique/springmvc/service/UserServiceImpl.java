@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userDao")
 	private UserDao dao;
-	
+
 	@Autowired
 	@Qualifier("branchDao")
 	private BranchDao branchDao;
@@ -67,12 +67,12 @@ public class UserServiceImpl implements UserService {
 
 	private List<User> getUsersFromBranches(List<Branch> branches) {
 		Set<User> agents = new TreeSet<User>();
-		
+
 		for (Branch branch : branches) {
 			Hibernate.initialize(branch.getAgents());
 			agents.addAll(branch.getAgents());
 		}
-		
+
 		return new LinkedList<User>(agents);
 	}
 

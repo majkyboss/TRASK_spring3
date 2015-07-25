@@ -1,14 +1,10 @@
 package com.websystique.springmvc.dao;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 
 @Repository("userDao")
@@ -26,6 +22,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 		// use join via criteria
 		// criteria.createAlias("role", "role_id", JoinType.INNER_JOIN);
 		// or set relation to FetchType.EAGER
+		// or use Hibernate.initialize(object);
 		return criteria.list();
 	}
 

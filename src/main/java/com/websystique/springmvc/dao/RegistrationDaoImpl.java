@@ -3,10 +3,8 @@ package com.websystique.springmvc.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.LocalDate;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.Registration;
@@ -25,16 +23,6 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 		Criteria criteria = getSession().createCriteria(Registration.class);
 		return (List<Registration>) criteria.list();
 		// return regs;
-	}
-
-	@Override
-	public void deleteRegistration(String ico, LocalDate registrationDate) {
-		Query query = getSession()
-				.createSQLQuery(
-						"delete from Registration where ico = :ico and reg_date = :registrationDate");
-		query.setString("ico", ico);
-		query.setParameter("registrationDate", registrationDate);
-		query.executeUpdate();
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.websystique.springmvc.controller;
 
 import java.beans.PropertyEditorSupport;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -18,19 +17,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.websystique.springmvc.model.Branch;
 import com.websystique.springmvc.model.Note;
 import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Registration;
 import com.websystique.springmvc.model.Role;
-import com.websystique.springmvc.model.Unit;
 import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.BranchService;
 import com.websystique.springmvc.service.NoteService;
@@ -108,22 +104,23 @@ public class UserController {
 					@Override
 					protected Object convertElement(Object element) {
 						if (element instanceof String) {
-//							String[] ids = ((String) element).split("\\_");
+							// String[] ids = ((String) element).split("\\_");
 
 							int agentId = Integer.parseInt((String) element);
 							User user = userService.findById(agentId);
 
-//							int branchId = Integer.parseInt(ids[1]);
-//							Unit unit = unitService.findById(agentId, branchId);
-//							if (unit == null) {
-//								unit = new Unit();
-//								unit.setUser(user);
-//								Branch b = branchService.findById(branchId);
-//								unit.setBranch(b);
-//								unitService.saveUnit(unit);
-//							}
-//
-//							return unit;
+							// int branchId = Integer.parseInt(ids[1]);
+							// Unit unit = unitService.findById(agentId,
+							// branchId);
+							// if (unit == null) {
+							// unit = new Unit();
+							// unit.setUser(user);
+							// Branch b = branchService.findById(branchId);
+							// unit.setBranch(b);
+							// unitService.saveUnit(unit);
+							// }
+							//
+							// return unit;
 							return user;
 						}
 
@@ -171,12 +168,12 @@ public class UserController {
 		Registration newReg = new Registration();
 		newReg.setRegDate(LocalDate.now());
 
-//		User user = new User();
-//		user.setName("testUser");
-//		user.setId(5555);
-//		Unit u = new Unit();
-//		u.setUser(user);
-//		newReg.setUnit(u);
+		// User user = new User();
+		// user.setName("testUser");
+		// user.setId(5555);
+		// Unit u = new Unit();
+		// u.setUser(user);
+		// newReg.setUnit(u);
 
 		model.addAttribute("registration", newReg);
 
@@ -220,30 +217,32 @@ public class UserController {
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
 		// load missing data
-//		Branch regBranch = branchService.findByAgentId(registration.getRegistrator().getId());
-//		registration.setRegistratorBranch(regBranch);
-		
-		registration.setRegistratorBranch(registration.getRegistrator().getCurrentBranch());
+		// Branch regBranch =
+		// branchService.findByAgentId(registration.getRegistrator().getId());
+		// registration.setRegistratorBranch(regBranch);
+
+		registration.setRegistratorBranch(registration.getRegistrator()
+				.getCurrentBranch());
 
 		registration.setRegDate(LocalDate.now());
 
 		// TODO test if the registration is unique - check the ico and date
-//		if (!regsService.isRegistrationUnique(registration.getIco(),
-//				registration.getRegDate())) {
-//			FieldError error = new FieldError("registration", "key",
-//					messageSource.getMessage(
-//							"non.unique.registration",
-//							new String[] {
-//									registration.getIco(),
-//									registration.getRegDate().toString(
-//											DATE_FORMAT_PATTERN) },
-//							Locale.getDefault()));
-//			result.addError(error);
-//			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
-//		}
+		// if (!regsService.isRegistrationUnique(registration.getIco(),
+		// registration.getRegDate())) {
+		// FieldError error = new FieldError("registration", "key",
+		// messageSource.getMessage(
+		// "non.unique.registration",
+		// new String[] {
+		// registration.getIco(),
+		// registration.getRegDate().toString(
+		// DATE_FORMAT_PATTERN) },
+		// Locale.getDefault()));
+		// result.addError(error);
+		// return JSP_PAGE_REGISTRATION_DETAIL_FORM;
+		// }
 
 		regsService.saveRegistration(registration);
-		
+
 		return "redirect:show_regs_list";
 	}
 
@@ -300,7 +299,7 @@ public class UserController {
 
 		LocalDate regDate = LocalDate.parse(regDateString,
 				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
-		
+
 		Registration reg = regsService.findByKey(ico, regDate);
 		regsService.deleteRegistration(reg);
 

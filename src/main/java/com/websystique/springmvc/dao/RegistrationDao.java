@@ -12,8 +12,6 @@ public interface RegistrationDao {
 
 	List<Registration> findAllRegistrations();
 
-	void deleteRegistration(String ico, LocalDate registrationDate);
-
 	Registration findByKey(String ico, LocalDate regDate);
 
 	List<Registration> findAllByManagerId(int managerId);

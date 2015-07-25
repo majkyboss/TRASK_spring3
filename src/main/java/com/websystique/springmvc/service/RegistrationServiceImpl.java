@@ -37,11 +37,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 
 	@Override
-	public void deleteRegistration(String ico, LocalDate registrationDate) {
-		dao.deleteRegistration(ico, registrationDate);
-	}
-
-	@Override
 	public boolean isRegistrationUnique(String ico, LocalDate regDate) {
 		Registration reg = findByKey(ico, regDate);
 		return (reg == null);
