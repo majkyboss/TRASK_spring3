@@ -1,6 +1,7 @@
 package com.websystique.springmvc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.websystique.springmvc.model.User;
 
@@ -18,4 +19,6 @@ public interface UserService {
 	List<User> findAllUsersInBranches();
 
 	List<User> findAllUsersInBranch(int id);
+	
+	Optional<User> findUserByEmail(String email);
 }

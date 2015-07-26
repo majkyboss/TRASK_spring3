@@ -61,6 +61,12 @@ public class User implements Serializable, Comparable<User> {
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Branch.class)
 	private Branch currentBranch;
+	
+	@Column(name="email", nullable= false, unique=true)
+	private String email;
+	
+	@Column(name="password_hash", nullable= true)
+	private String passwordHash;
 
 	public int getId() {
 		return id;
@@ -145,5 +151,21 @@ public class User implements Serializable, Comparable<User> {
 
 	public void setCurrentBranch(Branch currentBranch) {
 		this.currentBranch = currentBranch;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 }

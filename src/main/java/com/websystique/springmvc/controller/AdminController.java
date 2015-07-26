@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class AdminController extends UserController {
 	UserService userService;
 
 	@Override
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public String editRegistration(ModelMap model, @PathVariable String ico,
 			@PathVariable String regDateString) {
 		// load all statuses

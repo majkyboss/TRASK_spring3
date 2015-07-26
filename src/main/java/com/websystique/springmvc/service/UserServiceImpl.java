@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -81,6 +82,11 @@ public class UserServiceImpl implements UserService {
 		List<Branch> branches = new LinkedList<Branch>();
 		branches.add(branchDao.findById(branchId));
 		return getUsersFromBranches(branches);
+	}
+
+	@Override
+	public Optional<User> findUserByEmail(String email) {
+		return Optional.ofNullable(dao.findByEmail(email));
 	}
 
 }
