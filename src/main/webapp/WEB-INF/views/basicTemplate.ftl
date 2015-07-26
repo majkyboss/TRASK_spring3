@@ -51,15 +51,27 @@
     <select id="${spring.status.expression?replace('[','')?replace(']','')}" name="${spring.status.expression}" ${attributes}>
         <#if options?is_hash>
             <#list options?keys as value>
-            	<option value="${value?html}" <@spring.checkSelected options[value]/> >${options[value]?html}</option>
+				<#assign selected = checkSelected(options[value])>
+            	<option value="${value?html}" ${selected} >${options[value]?html}</option>
             </#list>
         <#else> 
             <#list options as value>
-            	<option value="${value?html}" <@spring.checkSelected value/> >${value?html}</option>
+				<#assign selected = checkSelected(options[value])>
+            	<option value="${value?html}" ${selected} >${value?html}</option>
             </#list>
         </#if>
     </select>
 </#macro>
+
+<#function checkSelected value>
+    <#if spring.stringStatusValue?is_number && spring.stringStatusValue == value?number>
+		<#return 'selected="selected"'>
+    <#elseif spring.stringStatusValue?is_string && spring.stringStatusValue == value >
+		<#return 'selected="selected"'>
+	<#else>
+		<#return "">
+	</#if>
+</#function>
 
 <#macro formMultiSelect path options attributes="">
     <@spring.bind path/>
