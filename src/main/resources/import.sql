@@ -12,5 +12,5 @@ INSERT INTO `spring3`.`RegStatus` (`name`) VALUES ("approved");
 INSERT INTO `spring3`.`RegStatus` (`name`) VALUES ("declimed");
 SELECT * FROM spring3.RegStatus;
 
-INSERT INTO `spring3`.`User` (`birth_date`, `date_in`, `degree`, `lastname`, `name`, `role_id`, `password_hash`, `username`, `enabled`,) VALUES ('0611898661', '2015-07-01', 'Bc', 'Banik', 'Michal', '2', true, '$2a$10$04TVADrR6/SPLBjsK0N30.Jf5fNjBugSACeGv1S69dZALR7lSov0y', 'majky');
+INSERT INTO `spring3`.`User` (`birth_date`, `date_in`, `degree`, `lastname`, `name`, `role_id`, `password_hash`, `username`, `enabled`) VALUES ('0611898661', '2015-07-01', 'Bc', 'Banik', 'Michal', '2', '$2a$10$ozlQerA9PY3.YNowgaKRF.TQU0M95qHk4MTVy008s2TDSlYSpMi1a', 'majky', true);
 INSERT INTO `spring3`.`Branch` (`name`, `manager_id`) VALUES ('Zilina', '1');
