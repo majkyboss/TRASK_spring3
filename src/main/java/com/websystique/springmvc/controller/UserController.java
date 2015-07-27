@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Registration;
 import com.websystique.springmvc.model.Role;
 import com.websystique.springmvc.model.User;
+import com.websystique.springmvc.security.AuthenticationFacade;
+import com.websystique.springmvc.security.UserDetailsImpl;
 import com.websystique.springmvc.service.BranchService;
 import com.websystique.springmvc.service.NoteService;
 import com.websystique.springmvc.service.RegStatusService;
@@ -46,12 +49,6 @@ public class UserController {
 	private static final String JSP_PAGE_REGISTRATIONS_LIST = "registrationsList";
 	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "note";
 	private static final String JSP_PAGE_NOTE_DETAIL = "noteDetail";
-
-	// create_reg
-	// edit_reg
-	// show_regs_list
-	// reg_details
-	// add_note
 
 	@Autowired
 	RegistrationService regsService;
@@ -73,6 +70,10 @@ public class UserController {
 	@Autowired
 	BranchService branchService;
 
+	@Autowired
+	@Qualifier("authenticationFacade")
+	AuthenticationFacade authenticationFacade;
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Role.class, "role",
@@ -80,7 +81,6 @@ public class UserController {
 					@Override
 					public void setAsText(String text)
 							throws IllegalArgumentException {
-						// super.setAsText(text);
 						int roleId = Integer.parseInt(text);
 						Role role = roleService.findRoleById(roleId);
 						setValue(role);
@@ -102,23 +102,8 @@ public class UserController {
 					@Override
 					protected Object convertElement(Object element) {
 						if (element instanceof String) {
-							// String[] ids = ((String) element).split("\\_");
-
 							int agentId = Integer.parseInt((String) element);
 							User user = userService.findById(agentId);
-
-							// int branchId = Integer.parseInt(ids[1]);
-							// Unit unit = unitService.findById(agentId,
-							// branchId);
-							// if (unit == null) {
-							// unit = new Unit();
-							// unit.setUser(user);
-							// Branch b = branchService.findById(branchId);
-							// unit.setBranch(b);
-							// unitService.saveUnit(unit);
-							// }
-							//
-							// return unit;
 							return user;
 						}
 
@@ -147,17 +132,6 @@ public class UserController {
 						setValue(user);
 					}
 				});
-		// binder.registerCustomEditor(Set.class, "agentUnits", new
-		// StringArrayPropertyEditor(","){
-		//
-		// @Override
-		// public void setAsText(String text) throws IllegalArgumentException {
-		// int agentId = Integer.parseInt(text);
-		// Unit unit = unitService.findById(agentId);
-		// setValue(unit);
-		// }
-		//
-		// });
 	}
 
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
@@ -165,25 +139,21 @@ public class UserController {
 		Registration newReg = new Registration();
 		newReg.setRegDate(LocalDate.now());
 
-		// User user = new User();
-		// user.setName("testUser");
-		// user.setId(5555);
-		// Unit u = new Unit();
-		// u.setUser(user);
-		// newReg.setUnit(u);
-
 		model.addAttribute("registration", newReg);
 
-		// TODO set current logged user to registration
-		loadUsersInBranchesToPageAsMap(model);
+		UserDetailsImpl userDetails = (UserDetailsImpl) authenticationFacade
+				.getAuthentication().getPrincipal();
+		User currentUser = userService.findById(userDetails.getId());
+		newReg.setRegistrator(currentUser);
 
-		loadStatusesToPage(model);
+		// static value user status with id 1 - supposed status 'new' has id 1
+		newReg.setRegStatus(statusService.findById(1));
 
 		return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 	}
 
-	private void loadStatusesToPage(ModelMap model) {
-		TreeMap<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
+	protected void loadStatusesToPageAsMap(ModelMap model) {
+		Map<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
 		for (RegStatus status : statusService.findAllStatuses()) {
 			statuses.put(status.getId() + "", status);
 		}
@@ -213,30 +183,10 @@ public class UserController {
 		if (result.hasErrors())
 			return JSP_PAGE_REGISTRATION_DETAIL_FORM;
 
-		// load missing data
-		// Branch regBranch =
-		// branchService.findByAgentId(registration.getRegistrator().getId());
-		// registration.setRegistratorBranch(regBranch);
-
 		registration.setRegistratorBranch(registration.getRegistrator()
 				.getCurrentBranch());
 
 		registration.setRegDate(LocalDate.now());
-
-		// TODO test if the registration is unique - check the ico and date
-		// if (!regsService.isRegistrationUnique(registration.getIco(),
-		// registration.getRegDate())) {
-		// FieldError error = new FieldError("registration", "key",
-		// messageSource.getMessage(
-		// "non.unique.registration",
-		// new String[] {
-		// registration.getIco(),
-		// registration.getRegDate().toString(
-		// DATE_FORMAT_PATTERN) },
-		// Locale.getDefault()));
-		// result.addError(error);
-		// return JSP_PAGE_REGISTRATION_DETAIL_FORM;
-		// }
 
 		regsService.saveRegistration(registration);
 

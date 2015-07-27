@@ -35,10 +35,12 @@ public class RegistrationDaoImpl extends AbstractDao implements RegistrationDao 
 
 	@Override
 	public List<Registration> findAllByManagerId(int managerId) {
-		Criteria criteria = getSession().createCriteria(Registration.class);
+		Criteria criteria = getSession().createCriteria(Registration.class)
+				.createCriteria("registratorBranch").createCriteria("manager")
+				.add(Restrictions.eq("id", managerId));
 		// http://stackoverflow.com/questions/2347359/hibernate-createcriteria-or-createalias
-		// TODO join via unit and branch
-		return null;
+		List<Registration> regs = criteria.list();
+		return regs;
 	}
 
 	@Override

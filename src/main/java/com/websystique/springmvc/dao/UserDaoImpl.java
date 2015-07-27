@@ -3,6 +3,7 @@ package com.websystique.springmvc.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -34,8 +35,18 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 
 	@Override
 	public List<User> findAllByBranchManager(int managerId) {
-		// TODO join via unit and branch
-		return null;
+		Criteria criteria = getSession().createCriteria(User.class)
+				.createCriteria("currentBranch").createCriteria("manager")
+				.add(Restrictions.eq("id", managerId));
+
+		List<User> users = criteria.list();
+
+		for (User user : users) {
+			Hibernate.initialize(user.getCurrentBranch());
+			Hibernate.initialize(user.getRole());
+		}
+
+		return users;
 	}
 
 	@Override

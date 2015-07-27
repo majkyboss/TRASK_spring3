@@ -55,7 +55,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public List<Registration> findAllByManagerId(int managerId) {
-		return dao.findAllByManagerId(managerId);
+		List<Registration> regs = dao.findAllByManagerId(managerId);
+
+		for (Registration registration : regs) {
+			Hibernate.initialize(registration.getRegistrator());
+			Hibernate.initialize(registration.getRegistratorBranch());
+			Hibernate.initialize(registration.getRegStatus());
+		}
+
+		return regs;
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.websystique.springmvc.model.Branch;
-import com.websystique.springmvc.model.RegStatus;
 import com.websystique.springmvc.model.Registration;
 import com.websystique.springmvc.model.Role;
 import com.websystique.springmvc.model.User;
@@ -39,6 +38,14 @@ public class AdminController extends ManagerController {
 	RegStatusService statusService;
 	@Autowired
 	UserService userService;
+
+	@Override
+	public String createRegistration(ModelMap model) {
+		loadUsersInBranchesToPageAsMap(model);
+
+		loadStatusesToPageAsMap(model);
+		return super.createRegistration(model);
+	}
 
 	@Override
 	public String editRegistration(ModelMap model, @PathVariable String ico,
@@ -140,14 +147,6 @@ public class AdminController extends ManagerController {
 	protected void loadUsersToPageAsList(ModelMap model) {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
-	}
-
-	private void loadStatusesToPageAsMap(ModelMap model) {
-		Map<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
-		for (RegStatus status : statusService.findAllStatuses()) {
-			statuses.put(status.getId() + "", status);
-		}
-		model.addAttribute("statuses", statuses);
 	}
 
 	@RequestMapping("/create_branch")

@@ -26,19 +26,25 @@
 					<td><@basic.formSingleSelect "registration.regStatus", statuses, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
-					<@spring.formHiddenInput "registration.regStatus"/>
-					<td>${(registration.regStatus.name)!}</td>
+					<td>
+						<#--<@spring.formHiddenInput "registration.regStatus"/>-->
+						<input type="hidden" id="regStatus" name="regStatus" value="${registration.regStatus.id}"/>
+						${(registration.regStatus.name)!}
+					</td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				</#if>
 			</tr>
 			<tr>
 				<td>Registrator</td>
 				<#if users??>
-					<#--<td>${user.name}</td>-->
 					<td><@basic.formSingleSelect "registration.registrator", users, ""/></td>
 					<td><@spring.showErrors "<br>", "error"/></td>
 				<#else>
-					<td>${(registration.registrator)!}<br></td>
+					<td>
+						<#--<@spring.formHiddenInput "registration.registrator"/>-->
+						<input type="hidden" id="registrator" name="registrator" value="${registration.registrator.id}"/>
+						${(registration.registrator)!}
+					</td>
 					<td><@spring.showErrors "<br>"/></td>
 				</#if>
 			</tr>
