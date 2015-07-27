@@ -1,12 +1,16 @@
 <#import "basicTemplate.ftl" as structure/>
 <#import "spring.ftl" as spring />
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
 
 <@structure.basic_structure>
 
 	<h1>Users list</h1>
+	
+	<@security.authorize access="hasRole('admin')">
 	<form>
 		<button formaction="create_user" formmethod="GET"/>Add</button>
 	</form>
+	</@security.authorize>
 
 	<#if users?? && users?has_content>		
 		<table>
@@ -28,8 +32,10 @@
 					<td>${user.dateIn!""}</td>
 					<td>${user.dateOut!""}</td>
 					<td>${(user.role)!""}</td>
+					<@security.authorize access="hasRole('admin')">
 					<td><a href="edit_user_${user.id}">edit</a></td>
 					<td><a href="del_user_${user.id}">delete</a></td>
+					</@security.authorize>
 				</tr>
 			</#list>
 		</table>

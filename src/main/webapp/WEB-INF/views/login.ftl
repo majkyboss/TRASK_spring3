@@ -1,6 +1,6 @@
-<html>
-<head>
-<title>Login Page</title>
+<#import "basicTemplate.ftl" as structure>
+<@structure.basic_structure>
+
 <style>
 .error {
 	padding: 15px;
@@ -32,10 +32,8 @@
 	border: 1px solid #000;
 }
 </style>
-</head>
-<body onload="document.loginForm.username.focus();">
 
-	<h1>Spring Security Login Form (Database + Hibernate Authentication)</h1>
+	<h1>Login</h1>
 
 	<div id="login-box">
 
@@ -72,5 +70,4 @@
 		</form>
 	</div>
 
-</body>
-</html>
+</@structure.basic_structure>

@@ -33,7 +33,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	}
 
 	@Override
-	public List<User> findAllByUnitManager(int managerId) {
+	public List<User> findAllByBranchManager(int managerId) {
 		// TODO join via unit and branch
 		return null;
 	}

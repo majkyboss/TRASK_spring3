@@ -28,7 +28,7 @@ import com.websystique.springmvc.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends UserController {
+public class AdminController extends ManagerController {
 	private static final String JSP_PAGE_USERS_LIST = "usersList";
 	private static final String JSP_PAGE_USER_DETAIL_FORM = "editUser";
 	private static final String JSP_PAGE_BRANCH_DETAIL_FORM = "editBranch";
@@ -44,24 +44,31 @@ public class AdminController extends UserController {
 	public String editRegistration(ModelMap model, @PathVariable String ico,
 			@PathVariable String regDateString) {
 		// load all statuses
-		LoadStatusesToPageAsMap(model);
+		loadStatusesToPageAsMap(model);
 
 		// load all users
-		loadUsersToPageAsMap(model);
+		loadUsersInBranchesToPageAsMap(model);
 
-		return super.editRegistration(model, ico, regDateString);
+		String returnString = super.editRegistration(model, ico, regDateString);
+
+		return returnString;
 	}
 
 	@Override
 	public String saveRegistration(Registration registration,
 			BindingResult result, ModelMap model) {
 		if (result.hasErrors()) {
-			LoadStatusesToPageAsMap(model);
+			loadStatusesToPageAsMap(model);
 
-			loadUsersToPageAsMap(model);
+			loadAllUsersToPageAsMap(model);
 		}
 
 		return super.saveRegistration(registration, result, model);
+	}
+
+	@Override
+	protected List<Registration> getRegistrations() {
+		return regsService.findAllRegistrations();
 	}
 
 	@RequestMapping("/create_user")
@@ -83,10 +90,14 @@ public class AdminController extends UserController {
 		if (result.hasErrors())
 			return JSP_PAGE_USER_DETAIL_FORM;
 
-		if (user.getPassword().length()>0) {
-			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		if (user.getPassword().length() > 0) {
+			user.setPassword(new BCryptPasswordEncoder().encode(user
+					.getPassword()));
+		} else {
+			User oldUser = userService.findById(user.getId());
+			user.setPassword(oldUser.getPassword());
 		}
-		
+
 		userService.saveUser(user);
 
 		return "redirect:show_users_list";
@@ -120,28 +131,18 @@ public class AdminController extends UserController {
 		return "redirect:show_users_list";
 	}
 
-	@RequestMapping("/show_users_list")
 	public String showUsers(ModelMap model) {
 		loadUsersToPageAsList(model);
 
 		return JSP_PAGE_USERS_LIST;
 	}
 
-	private void loadUsersToPageAsList(ModelMap model) {
+	protected void loadUsersToPageAsList(ModelMap model) {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 	}
 
-	private void loadUsersToPageAsMap(ModelMap model) {
-		// List<User> users = userService.findAllUsers();
-		Map<String, User> users = new TreeMap<String, User>();
-		for (User user : userService.findAllUsers()) {
-			users.put(user.getId() + "", user);
-		}
-		model.addAttribute("users", users);
-	}
-
-	private void LoadStatusesToPageAsMap(ModelMap model) {
+	private void loadStatusesToPageAsMap(ModelMap model) {
 		Map<String, RegStatus> statuses = new TreeMap<String, RegStatus>();
 		for (RegStatus status : statusService.findAllStatuses()) {
 			statuses.put(status.getId() + "", status);
@@ -154,7 +155,7 @@ public class AdminController extends UserController {
 		Branch newBranch = new Branch();
 		model.addAttribute("branch", newBranch);
 
-		loadUsersToPageAsMap(model);
+		loadAllUsersToPageAsMap(model);
 
 		model.addAttribute("agents", new TreeSet<User>());
 
@@ -180,7 +181,7 @@ public class AdminController extends UserController {
 		Branch branch = branchService.findById(branchId);
 		model.addAttribute("branch", branch);
 
-		loadUsersToPageAsMap(model);
+		loadAllUsersToPageAsMap(model);
 
 		return JSP_PAGE_BRANCH_DETAIL_FORM;
 	}
@@ -199,7 +200,7 @@ public class AdminController extends UserController {
 		Branch branch = branchService.findById(branchId);
 		model.addAttribute("branch", branch);
 
-		loadUsersToPageAsMap(model);
+		loadAllUsersToPageAsMap(model);
 
 		return JSP_PAGE_BRANCH_ADD_AGENT;
 	}

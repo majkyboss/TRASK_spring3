@@ -1,6 +1,7 @@
 package com.websystique.springmvc.controller;
 
 import java.beans.PropertyEditorSupport;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +37,7 @@ import com.websystique.springmvc.service.RoleService;
 import com.websystique.springmvc.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value = { "/user" })
 public class UserController {
 	private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy";
 
@@ -157,7 +158,6 @@ public class UserController {
 		// }
 		//
 		// });
-
 	}
 
 	@RequestMapping(value = { "/create_reg" }, method = RequestMethod.GET)
@@ -175,7 +175,7 @@ public class UserController {
 		model.addAttribute("registration", newReg);
 
 		// TODO set current logged user to registration
-		loadUsersInBranchesToPage(model);
+		loadUsersInBranchesToPageAsMap(model);
 
 		loadStatusesToPage(model);
 
@@ -190,7 +190,7 @@ public class UserController {
 		model.addAttribute("statuses", statuses);
 	}
 
-	private void loadUsersInBranchesToPage(ModelMap model) {
+	protected void loadUsersInBranchesToPageAsMap(ModelMap model) {
 		Map<String, User> users = new TreeMap<String, User>();
 
 		for (User user : userService.findAllUsersInBranches()) {
@@ -199,7 +199,7 @@ public class UserController {
 		model.addAttribute("users", users);
 	}
 
-	private void loadUsersToPage(ModelMap model) {
+	protected void loadAllUsersToPageAsMap(ModelMap model) {
 		Map<String, User> users = new TreeMap<String, User>();
 		for (User user : userService.findAllUsers()) {
 			users.put(user.getId() + "", user);
@@ -275,6 +275,9 @@ public class UserController {
 	@RequestMapping(value = { "/show_regs_list" })
 	public String showRegistrations(ModelMap model) {
 		List<Registration> regs = getRegistrations();
+		if (regs == null) {
+			regs = new LinkedList<Registration>();
+		}
 
 		model.addAttribute("registrations_list", regs);
 

@@ -1,6 +1,8 @@
 <#import "basicTemplate.ftl" as structure>
+
 <@structure.basic_structure>
 	
+	<h1>Branches list</h1>
 	<#if branches??>
 	<form>
 		<button formaction="create_branch" formmethod="GET"/>Add</button>

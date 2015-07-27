@@ -29,9 +29,42 @@
 </style>
 </head>
 <body>
+	
+	<form action="/Spring3/logout" method="post" id="logoutForm">
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	</form>
+	<script>
+		function formSubmit() {
+			document.getElementById("logoutForm").submit();
+		}
+	</script>
+
 	<div class="top_menu">
-		{user.name} | <a href="show_regs_list">Registrations</a> | <a href="show_users_list">Users</a> | <a href="show_branches_list">Branches</a> <span id="login_button">{Login btn}
-			| <a href="../logout">Log out</a></span>
+		${(pageContext.request.userPrincipal.name)!}
+		<#if !(currentUser??)>
+			<a href="/Spring3/user/show_regs_list">Registrations</a>
+			 | <a href="/Spring3/manager/show_users_list">Users</a>
+			 | <a href="/Spring3/admin/show_branches_list">Branches</a>
+			<span id="login_button">
+				<a href="login">Log in</a>			
+		<#elseif currentUser??>
+			<#if currentUser.role??>
+			<a href="/Spring3/${(currentUser.role.name)}/show_regs_list">Registrations</a>
+			<#if currentUser.role=="admin" || currentUser.role=="manager" >
+			 | <a href="/Spring3/${(currentUser.role.name)}/show_users_list">Users</a>
+			<#if currentUser.role=="admin">
+			 | <a href="/Spring3/${(currentUser.role.name)}/show_branches_list">Branches</a>
+			</#if>
+			</#if>
+			</#if>
+			<span id="login_button">
+				${(currentUser.username)!}
+				 | 
+				<a href="javascript:formSubmit()">Log out</a>
+		</#if>
+		 
+		</span>
 	</div>
 	<div class="main_content">
 	

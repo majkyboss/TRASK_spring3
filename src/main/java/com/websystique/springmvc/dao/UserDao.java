@@ -12,9 +12,9 @@ public interface UserDao {
 
 	User findById(int userId);
 
-	List<User> findAllByUnitManager(int managerId);
+	List<User> findAllByBranchManager(int managerId);
 
 	void deleteUser(User user);
-	
+
 	User findByUserName(String username);
 }

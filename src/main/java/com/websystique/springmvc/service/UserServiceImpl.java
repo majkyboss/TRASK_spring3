@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> findAllUsersByUnitManagerId(int managerId) {
-		return dao.findAllByUnitManager(managerId);
+	public List<User> findAllUsersByBranchManagerId(int managerId) {
+		return dao.findAllByBranchManager(managerId);
 	}
 
 	@Override

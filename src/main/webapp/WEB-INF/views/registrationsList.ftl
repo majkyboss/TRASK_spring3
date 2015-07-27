@@ -1,9 +1,13 @@
 <#import "basicTemplate.ftl" as structure>
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"] />
+
 <@structure.basic_structure>
-	
+	<h1>Registrations list</h1>
+	<@security.authorize access="!hasRole('manager')">
 	<form>
 		<button formaction="create_reg" formmethod="GET"/>Add</button>
 	</form>
+	</@security.authorize>
 	
 	<table>
 		<tr>

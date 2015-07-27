@@ -7,7 +7,7 @@ import com.websystique.springmvc.model.User;
 public interface UserService {
 	void saveUser(User user1);
 
-	List<User> findAllUsersByUnitManagerId(int managerId);
+	List<User> findAllUsersByBranchManagerId(int managerId);
 
 	List<User> findAllUsers();
 

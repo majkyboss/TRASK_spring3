@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.websystique.springmvc.dao.UserDao;
 import com.websystique.springmvc.model.Role;
+import com.websystique.springmvc.security.UserDetailsImpl;
 
 @Service("userDetailService")
 @Transactional
@@ -31,21 +31,23 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 
-		com.websystique.springmvc.model.User user = userDao.findByUserName(username);
+		com.websystique.springmvc.model.User user = userDao
+				.findByUserName(username);
 		HashSet<Role> roleSet = new HashSet<Role>();
 		roleSet.add(user.getRole());
 		List<GrantedAuthority> authorities = buildUserAuthority(roleSet);
-		
+
 		return buildUserForAuthentication(user, authorities);
 	}
 
 	// Converts com.mkyong.users.model.User user to
 	// org.springframework.security.core.userdetails.User
-	private User buildUserForAuthentication(
+	private UserDetailsImpl buildUserForAuthentication(
 			com.websystique.springmvc.model.User user,
 			List<GrantedAuthority> authorities) {
-		return new User(user.getUsername(), user.getPassword(),
-				user.isEnabled(), true, true, true, authorities);
+		// return new User(user.getUsername(), user.getPassword(),
+		// user.isEnabled(), true, true, true, authorities);
+		return new UserDetailsImpl(user);
 	}
 
 	private List<GrantedAuthority> buildUserAuthority(Set<Role> userRoles) {

@@ -1,5 +1,7 @@
-<html>
-<body>
+<#import "basicTemplate.ftl" as basic>
+
+<@basic.basic_structure>
+
 	<h1>HTTP Status 403 - Access is denied</h1>
 
 
@@ -9,5 +11,4 @@
 			<h2>Username : ${username} <br/>You do not have permission to access this page!</h2>
 		</#if>
 
-</body>
-</html>
+</@basic.basic_structure>
