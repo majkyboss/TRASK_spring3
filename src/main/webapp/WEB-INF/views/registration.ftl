@@ -7,6 +7,7 @@
 
 	<#if registration??>
 	<form>
+		<@basic.csrfToken/>
 		<@spring.bind "registration"/>
 		<table>
 			<tr>

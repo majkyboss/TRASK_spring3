@@ -9,6 +9,7 @@
 
 	<#if user??>
 		<form action="save_user">
+			<@basic.csrfToken/>
 			<@spring.bind "user"/>
 			<table>
 				<tr>

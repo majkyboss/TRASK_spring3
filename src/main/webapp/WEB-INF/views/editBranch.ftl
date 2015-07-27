@@ -5,6 +5,7 @@
 	
 	<#if branch??>
 		<form>
+			<@basic.csrfToken/>
 			<@spring.bind "branch"/>
 			<table>
 				<tr>

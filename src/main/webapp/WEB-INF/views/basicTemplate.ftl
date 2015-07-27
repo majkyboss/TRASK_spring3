@@ -31,7 +31,7 @@
 <body>
 	<div class="top_menu">
 		{user.name} | <a href="show_regs_list">Registrations</a> | <a href="show_users_list">Users</a> | <a href="show_branches_list">Branches</a> <span id="login_button">{Login btn}
-			| {Logout btn}</span>
+			| <a href="../logout">Log out</a></span>
 	</div>
 	<div class="main_content">
 	
@@ -88,7 +88,10 @@
     </select>
 </#macro>
 
-
+<#macro csrfToken>
+	<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+</#macro>
 
 <@basic_structure>
 	ahoj

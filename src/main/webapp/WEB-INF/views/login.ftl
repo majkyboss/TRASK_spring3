@@ -49,7 +49,7 @@
 		</#if>
 
 		<form name="loginForm"
-			action="/login" method="POST">
+			action="login" method="POST">
 
 			<table>
 				<tr>

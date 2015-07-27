@@ -33,7 +33,6 @@ import com.websystique.springmvc.service.NoteService;
 import com.websystique.springmvc.service.RegStatusService;
 import com.websystique.springmvc.service.RegistrationService;
 import com.websystique.springmvc.service.RoleService;
-import com.websystique.springmvc.service.UnitService;
 import com.websystique.springmvc.service.UserService;
 
 @Controller
@@ -72,8 +71,6 @@ public class UserController {
 	RoleService roleService;
 	@Autowired
 	BranchService branchService;
-	@Autowired
-	UnitService unitService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
