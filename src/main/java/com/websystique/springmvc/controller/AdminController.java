@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -82,6 +83,10 @@ public class AdminController extends UserController {
 		if (result.hasErrors())
 			return JSP_PAGE_USER_DETAIL_FORM;
 
+		if (user.getPassword().length()>0) {
+			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		}
+		
 		userService.saveUser(user);
 
 		return "redirect:show_users_list";

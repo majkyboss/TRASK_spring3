@@ -3,6 +3,7 @@ package com.websystique.springmvc.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.websystique.springmvc.model.User;
@@ -40,6 +41,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
 	@Override
 	public void deleteUser(User user) {
 		delete(user);
+	}
+
+	@Override
+	public User findByUserName(String username) {
+		Criteria criteria = getSession().createCriteria(User.class).add(
+				Restrictions.eq("username", username));
+		return (User) criteria.uniqueResult();
 	}
 
 }

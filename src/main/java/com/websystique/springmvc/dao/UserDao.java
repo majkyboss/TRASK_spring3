@@ -15,4 +15,6 @@ public interface UserDao {
 	List<User> findAllByUnitManager(int managerId);
 
 	void deleteUser(User user);
+	
+	User findByUserName(String username);
 }

@@ -40,8 +40,8 @@ public class Note implements Serializable {
 
 	@Id
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Registration.class)
-	@JoinColumns({ @JoinColumn(name = "registration_ico", nullable = false),
-			@JoinColumn(name = "registration_reg_date", nullable = false) })
+	@JoinColumns({ @JoinColumn(name = "ico", nullable = false),
+			@JoinColumn(name = "reg_date", nullable = false) })
 	private Registration registration;
 
 	public int getId() {

@@ -47,6 +47,16 @@
 					<td><@spring.showErrors "<br>" /></td>
 				</tr>
 				<tr>
+					<td>Login name</td>
+					<td><@spring.formInput "user.username" /><td>
+					<td><@spring.showErrors "<br>" /></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><@spring.formPasswordInput "user.password" /><td>
+					<td><@spring.showErrors "<br>" /></td>
+				</tr>
+				<tr>
 					<td>
 						<@spring.formHiddenInput "user.id"/>
 						<button formaction="save_user" formmethod="POST">Save</button>
