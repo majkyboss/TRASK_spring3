@@ -21,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Note")
-public class Note implements Serializable {
+public class Note implements Serializable, Comparable<Note> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -38,10 +38,7 @@ public class Note implements Serializable {
 	@Column(name = "text", nullable = true)
 	private String text;
 
-	@Id
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Registration.class)
-	@JoinColumns({ @JoinColumn(name = "ico", nullable = false),
-			@JoinColumn(name = "reg_date", nullable = false) })
 	private Registration registration;
 
 	public int getId() {
@@ -74,5 +71,10 @@ public class Note implements Serializable {
 
 	public void setRegistration(Registration registration) {
 		this.registration = registration;
+	}
+
+	@Override
+	public int compareTo(Note o) {
+		return Integer.compare(getId(), o.getId());
 	}
 }

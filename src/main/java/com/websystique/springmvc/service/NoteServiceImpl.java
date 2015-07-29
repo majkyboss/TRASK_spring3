@@ -1,5 +1,6 @@
 package com.websystique.springmvc.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public Note findById(int id) {
 		Note foundNote = dao.findById(id);
+		Hibernate.initialize(foundNote.getRegistration());
+		Hibernate.initialize(foundNote.getRegistration().getNotes());
 		return foundNote;
 	}
 

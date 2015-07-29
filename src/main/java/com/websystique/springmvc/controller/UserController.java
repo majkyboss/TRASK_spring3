@@ -47,7 +47,7 @@ public class UserController {
 	private static final String JSP_PAGE_REGISTRATION_DETAIL_FORM = "registration";
 	private static final String JSP_PAGE_REGISTRATION_DETAIL = "registrationDetail";
 	private static final String JSP_PAGE_REGISTRATIONS_LIST = "registrationsList";
-	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "note";
+	private static final String JSP_PAGE_NOTE_DETAIL_FORM = "editNote";
 	private static final String JSP_PAGE_NOTE_DETAIL = "noteDetail";
 
 	@Autowired
@@ -186,7 +186,7 @@ public class UserController {
 		registration.setRegistratorBranch(registration.getRegistrator()
 				.getCurrentBranch());
 
-		registration.setRegDate(LocalDate.now());
+//		registration.setRegDate(LocalDate.now());
 
 		regsService.saveRegistration(registration);
 
@@ -255,12 +255,22 @@ public class UserController {
 
 		return "redirect:show_regs_list";
 	}
-
-	@RequestMapping(value = { "/create_note" }, method = RequestMethod.POST)
-	public String createNote(ModelMap model, Registration registration) {
-		Note newNote = new Note();
-		newNote.setRegistration(registration);
-		model.addAttribute("note", newNote);
+	
+	@RequestMapping(value = {"/add_note_{regDateString}_{regIco}"})
+	public String addNote(ModelMap model, @PathVariable String regIco, @PathVariable String regDateString) {
+		LocalDate regDate = LocalDate.parse(regDateString,
+				DateTimeFormat.forPattern(DATE_FORMAT_PATTERN));
+		
+		Registration reg = regsService.findByKey(regIco, regDate);
+		Note note = new Note();
+		note.setCreatedDate(LocalDate.now());
+		reg.getNotes().add(note);
+		note.setRegistration(reg);
+		noteService.saveNote(note);
+		regsService.saveRegistration(reg);
+		
+		model.addAttribute("note", note);
+		
 		return JSP_PAGE_NOTE_DETAIL_FORM;
 	}
 
@@ -274,18 +284,23 @@ public class UserController {
 
 	@RequestMapping(value = { "/save_note" }, method = RequestMethod.POST)
 	public String saveNote(ModelMap model, @Valid Note note) {
+		Note oldNote = noteService.findById(note.getId());
+		note.setRegistration(oldNote.getRegistration());
 		noteService.saveNote(note);
-		return JSP_PAGE_NOTE_DETAIL;
+		
+		Registration reg = note.getRegistration();
+		
+		return editRegistration(model, reg.getIco(), reg.getRegDate().toString(DateTimeFormat.forPattern(DATE_FORMAT_PATTERN)));
 	}
 
 	@RequestMapping("/del_note_{noteId}")
 	public String deleteNote(ModelMap model, @PathVariable int noteId) {
 		Note note = noteService.findById(noteId);
 		Registration reg = (note == null) ? null : note.getRegistration();
+		reg.getNotes().remove(note);
+		regsService.saveRegistration(reg);
 		noteService.deleteNote(note);
 
-		model.addAttribute("registration", reg);
-
-		return JSP_PAGE_REGISTRATION_DETAIL;
+		return editRegistration(model, reg.getIco(), reg.getRegDate().toString(DateTimeFormat.forPattern(DATE_FORMAT_PATTERN)));
 	}
 }

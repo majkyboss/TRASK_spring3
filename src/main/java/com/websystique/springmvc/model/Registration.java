@@ -1,6 +1,8 @@
 package com.websystique.springmvc.model;
 
 import java.io.Serializable;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,15 +38,6 @@ public class Registration implements Serializable {
 	@Column(name = "reg_date")
 	private LocalDate regDate;
 
-	// @NotNull
-	// @ManyToOne(fetch = FetchType.EAGER, targetEntity = Unit.class)
-	// @JoinColumns({
-	// @JoinColumn(name = "unit_user_id", nullable = false, referencedColumnName
-	// = "user_id"),
-	// @JoinColumn(name = "unit_branch_id", nullable = false,
-	// referencedColumnName = "branch_id") })
-	// private Unit unit;
-
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -57,6 +51,9 @@ public class Registration implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegStatus.class)
 	@JoinColumn(name = "regStatus_id", nullable = false)
 	private RegStatus regStatus;
+	
+	@OneToMany(fetch = FetchType.LAZY, targetEntity= Note.class)
+	private Set<Note> notes = new TreeSet<Note>();
 
 	public String getIco() {
 		return ico;
@@ -82,14 +79,6 @@ public class Registration implements Serializable {
 		this.regDate = regDate;
 	}
 
-	// public Unit getUnit() {
-	// return unit;
-	// }
-	//
-	// public void setUnit(Unit unit) {
-	// this.unit = unit;
-	// }
-
 	public RegStatus getRegStatus() {
 		return regStatus;
 	}
@@ -112,5 +101,13 @@ public class Registration implements Serializable {
 
 	public void setRegistratorBranch(Branch registratorBranch) {
 		this.registratorBranch = registratorBranch;
+	}
+
+	public Set<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(Set<Note> notes) {
+		this.notes = notes;
 	}
 }

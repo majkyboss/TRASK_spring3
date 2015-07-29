@@ -56,8 +56,8 @@ public class HibernateConfiguration {
 		// environment.getRequiredProperty("hibernate.show_sql"));
 		properties.put("hibernate.format_sql",
 				environment.getRequiredProperty("hibernate.format_sql"));
-		properties.put("hibernate.hbm2ddl.auto",
-				environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+//		properties.put("hibernate.hbm2ddl.auto",
+//				environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
 		return properties;
 	}
 

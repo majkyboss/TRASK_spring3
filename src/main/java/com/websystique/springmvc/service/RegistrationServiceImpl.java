@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.websystique.springmvc.dao.NoteDao;
 import com.websystique.springmvc.dao.RegistrationDao;
+import com.websystique.springmvc.model.Note;
 import com.websystique.springmvc.model.Registration;
 
 @Service("regsService")
@@ -19,6 +21,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Autowired
 	@Qualifier("registrationDao")
 	private RegistrationDao dao;
+	
+	@Autowired
+	@Qualifier("noteDao")
+	private NoteDao noteDao;
 
 	@Override
 	public void saveRegistration(Registration registration) {
@@ -49,6 +55,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 			Hibernate.initialize(reg.getRegistrator());
 			Hibernate.initialize(reg.getRegistratorBranch());
 			Hibernate.initialize(reg.getRegStatus());
+			Hibernate.initialize(reg.getNotes());
 		}
 		return reg;
 	}
@@ -68,6 +75,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
 	@Override
 	public void deleteRegistration(Registration registration) {
+		for (Note note : registration.getNotes()) {
+			noteDao.deleteNote(note);
+		}
 		dao.deleteRegistration(registration);
 	}
 

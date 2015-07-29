@@ -28,6 +28,7 @@
 				<td>${registration.regStatus.name!""}</td>
 				<td><a href="edit_reg_${(registration.regDate.toString('dd.MM.yyyy'))!}_${registration.ico}">edit</a></td>
 				<td><a href="del_reg_${(registration.regDate.toString('dd.MM.yyyy'))!}_${registration.ico}">delete</a></td>
+				<td><a href="add_note_${(registration.regDate.toString('dd.MM.yyyy'))!}_${registration.ico}">add note</a></td>
 			</tr>
 		</#list>
 	</table>
